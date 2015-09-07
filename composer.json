@@ -1,0 +1,19 @@
+{
+    "name": "Lininliao-Dev",
+    "description": "Lininliao Development Server.",
+    "require": {
+        "php": ">=5.5.0",
+        "phalcon/incubator": "dev-master"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "4.*",
+        "phalcon/devtools": "dev-master",
+        "filp/whoops": "1.*"
+    },
+    "autoload": {
+        "classmap": [],
+        "psr-4": {
+            "": "vendor/"
+        }
+    }
+}
