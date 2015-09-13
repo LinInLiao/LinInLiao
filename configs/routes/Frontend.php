@@ -14,6 +14,15 @@ $router->add('/', array(
     'action'        => 'index'
 ))->setName('homepage');
 
+$router->add('/testMenu/{store_id:[a-z0-9\-_A-Z]+}', array(
+    'controller'    => 'Index',
+    'action'        => 'testMenu'
+))->setName('homepage');
+
+$router->add('/menu/ajax/{store_id:[a-z0-9\-_A-Z]+}', array(
+    'controller'    => 'Index',
+    'action'        => 'menuAjax'
+))->setName('homepage');
 
 $router->notFound(array(
     'controller'    => 'Index',

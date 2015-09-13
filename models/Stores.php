@@ -32,6 +32,12 @@ class Stores extends \Phalcon\Mvc\Model {
      *
      * @var string
      */
+    public $status;
+
+    /**
+     *
+     * @var string
+     */
     public $created;
 
     /**
@@ -63,6 +69,7 @@ class Stores extends \Phalcon\Mvc\Model {
         $this->alias = $data['alias'];
         $this->name = $data['name'];
         $this->cover = isset($data['cover']) ? $data['cover'] : 0;
+        $this->status = 'active';
         $this->created = date('Y-m-d H:i:s');
         $this->modified = date('Y-m-d H:i:s');
         if (false === $this->save()) {
@@ -71,6 +78,21 @@ class Stores extends \Phalcon\Mvc\Model {
         return true;
     }
 
+    public static function getStores($status = 'active') {
+        $results = self::find(array(
+            'columns' => array_keys(self::columnMap()),
+            'conditions' => 'status = :status:',
+            'bind' => array('status' => $status),
+            'bindTypes' => array(
+                'status' => \Phalcon\Db\Column::BIND_PARAM_STR,
+            ),
+        ));
+        if ($results->count() > 0) {
+            return $results;
+        }else {
+            return false;
+        }
+    }
 
 
     /**
@@ -82,6 +104,7 @@ class Stores extends \Phalcon\Mvc\Model {
             'alias' => 'alias',
             'name' => 'name',
             'cover' => 'cover',
+            'status' => 'status',
             'created' => 'created',
             'modified' => 'modified',
         );

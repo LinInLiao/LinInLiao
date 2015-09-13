@@ -1,4 +1,10 @@
-<div class="page-header">
-    <h1>Congratulations! Lin In Liao Started</h1>
-</div>
 
+{% if Stores is defined AND Stores is not false %}
+  <ul>
+  {% for store in Stores %}
+    <li><a href="testMenu/{{ store.id }}">{{ store.name }}</a></li>
+
+  {{ dump(store) }}
+  {% endfor %}
+  </ul>
+{% endif %}

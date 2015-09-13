@@ -4,12 +4,14 @@ CREATE TABLE `drinks` (
   `store_id` char(36) CHARACTER SET utf8mb4 NOT NULL,
   `name` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
   `cover` int(11) NOT NULL,
+  `status` enum('active','deleted') COLLATE utf8mb4_unicode_ci NOT NULL,
   `created` datetime NOT NULL,
   `modified` datetime NOT NULL,
   PRIMARY KEY (`id`),
   KEY `store_id` (`store_id`),
   CONSTRAINT `drinks_ibfk_1` FOREIGN KEY (`store_id`) REFERENCES `stores` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
 
 
 DROP TABLE IF EXISTS `drink_categories`;
