@@ -1,6 +1,6 @@
 <?php
 
-use Lininliao\Plugins\StorePlugin;
+use Lininliao\Backend\Plugins\StorePlugin;
 
 final class MainTask extends \Phalcon\CLI\Task {
 
