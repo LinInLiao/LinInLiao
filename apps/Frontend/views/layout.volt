@@ -6,6 +6,8 @@
     <![endif]-->
     <script src="/js/react.js"></script>
     <script src="/js/JSXTransformer.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
   </head>
   <body>
 

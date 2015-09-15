@@ -28,6 +28,22 @@ class DrinkCategories extends \Phalcon\Mvc\Model {
         $this->useDynamicUpdate(true);
     }
 
+    public static function getDrinksCategories($drink_id) {
+        $results = self::find(array(
+            'columns' => array_keys(self::columnMap()),
+            'conditions' => 'drink_id = :drink_id: AND status = :status:',
+            'bind' => array('drink_id' => $drink_id , 'status' => $status),
+            'bindTypes' => array(
+                'status' => \Phalcon\Db\Column::BIND_PARAM_STR,
+                'drink_id' => \Phalcon\Db\Column::BIND_PARAM_STR,
+            ),
+        ));
+        if ($results->count() > 0) {
+            return $results;
+        }else {
+            return false;
+        }
+    }
     public function add($data){
         $this->drink_id = $data['drink_id'];
         $this->store_category_id = $data['store_category_id'];

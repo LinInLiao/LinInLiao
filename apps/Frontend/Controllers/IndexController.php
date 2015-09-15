@@ -4,7 +4,8 @@ namespace Lininliao\Frontend\Controllers;
 
 use Lininliao\Frontend\Controllers\BaseController,
     Lininliao\Models\Stores,
-    Lininliao\Frontend\Controllers\Components\StoreComponent;
+    Lininliao\Frontend\Controllers\Components\StoreComponent,
+    Lininliao\Plugins\BaseControllerPlugin;
 
 
 class IndexController extends BaseController
@@ -16,12 +17,15 @@ class IndexController extends BaseController
     }
 
     public function testMenuAction() {
-      $store_id = $this->getParams('store_id');
-      var_dump($store_id);
-      StoreComponent::getStoreDrinksTree($store_id);
     }
     public function menuAjaxAction() {
+      $store_id = $this->getParams('store_id');
+      $store_component = new StoreComponent();
+      $menus = $store_component->getStoreDrinks($store_id);
+      $data['menus'] = $menus;
+      $data['status'] = 'ok';
 
+      BaseControllerPlugin::responseJson($data);
     }
     public function notFoundAction() {
       var_dump('notFound');

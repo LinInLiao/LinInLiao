@@ -33,47 +33,58 @@ class StorePlugin extends \Phalcon\Mvc\User\Plugin {
     private function addDrinks($drinks, $store, $header, $transaction) {
         $header = array_flip($header);
         $drinks_saved = array();
+        $drink_categories_saved = array();
+        foreach ($store['categories'] as $key => $value) {
+            $drink_categories_saved[$value] = array();
+        }
+
         try {
             foreach ($drinks as $_item) {
-                // drink -> drink_coldheats -> drink_coldheats_levels -> drink_sugars -> drink_sizes -> drink_extras -> drink_categories
-                $drink = $_item[$header['drinks']];
-                if (false == ($drink_id = array_search($drink, $drinks_saved))) {
-                    if (false === ($drink_id = $this->addDrink($drink, $store['store_id']))){
-                        $transaction->rollback('addDrink');
+                    // drink -> drink_coldheats -> drink_coldheats_levels -> drink_sugars -> drink_sizes -> drink_extras -> drink_categories
+                    $drink = $_item[$header['drinks']];
+                    if (false == ($drink_id = array_search($drink, $drinks_saved))) {
+                        if (false === ($drink_id = $this->addDrink($drink, $store['store_id']))){
+                            $transaction->rollback('addDrink');
+                            return false;
+                        }
+                        $drinks_saved[$drink_id] = $drink;
+                    }
+                    $coldheats = $_item[$header['coldheats']];
+                    if (false === ($coldheats_id = $this->addDrinkColdHeats($drink_id, $coldheats, $store['coldheats']))){
+                        $transaction->rollback('addDrinkcoldheatsError');
                         return false;
                     }
-                    $drinks_saved[$drink_id] = $drink;
-                }
-                $coldheats = $_item[$header['coldheats']];
-                if (false === ($coldheats_id = $this->addDrinkColdHeats($drink_id, $coldheats, $store['coldheats']))){
-                    $transaction->rollback('addDrinkcoldheatsError');
-                    return false;
-                }
-                $coldheats_levels = $_item[$header['coldheats_levels']];
-                if (false === $this->addDrinkColdHeatsLevels($drink_id, $coldheats_id, $coldheats_levels, $store['coldheats_levels'])){
-                    $transaction->rollback('addDrinkcoldheatsLevelsError');
-                    return false;
-                }
-                $categories = $_item[$header['categories']];
-                if (false === $this->addDrinkCategories($drink_id, $coldheats_id, $categories, $store['categories'])){
-                    $transaction->rollback('addDrinkCategoriesError');
-                    return false;
-                }
-                $sugars = $_item[$header['sugars']];
-                if (false === $this->addDrinkSugars($drink_id, $coldheats_id, $sugars, $store['sugars'])){
-                    $transaction->rollback('addDrinkSugarsError');
-                    return false;
-                }
-                $extras = $_item[$header['extras']];
-                if (false === $this->addDrinkExtras($drink_id, $coldheats_id, $extras, $store['extras'])){
-                    $transaction->rollback('addDrinkExtraError');
-                    return false;
-                }
-                $sizes = $_item[$header['sizes']];
-                if (false === $this->addDrinkSizes($drink_id, $coldheats_id, $sizes)){
-                    $transaction->rollback('addDrinkSizesError');
-                    return false;
-                }
+                    $coldheats_levels = $_item[$header['coldheats_levels']];
+                    if (false === $this->addDrinkColdHeatsLevels($drink_id, $coldheats_id, $coldheats_levels, $store['coldheats_levels'])){
+                        $transaction->rollback('addDrinkcoldheatsLevelsError');
+                        return false;
+                    }
+                    $categories = $_item[$header['categories']];
+                    if (!in_array($drink_id, $drink_categories_saved[$store['categories'][$categories]])) {
+                        if (false === ($store_category = $this->addDrinkCategories($drink_id, $coldheats_id, $categories, $store['categories']))){
+                            $transaction->rollback('addDrinkCategoriesError');
+                            return false;
+                        }
+                        array_push($drink_categories_saved[$store_category], $drink_id);
+                    }
+                    $sugars = $_item[$header['sugars']];
+                    if (false === $this->addDrinkSugars($drink_id, $coldheats_id, $sugars, $store['sugars'])){
+                        $transaction->rollback('addDrinkSugarsError');
+                        return false;
+                    }
+                    if (!empty($_item[$header['extras']])) {
+                        $extras = $_item[$header['extras']];
+                        if (false === $this->addDrinkExtras($drink_id, $coldheats_id, $extras, $store['extras'])){
+                            $transaction->rollback('addDrinkExtraError');
+                            return false;
+                        }
+                    }
+
+                    $sizes = $_item[$header['sizes']];
+                    if (false === $this->addDrinkSizes($drink_id, $coldheats_id, $sizes)){
+                        $transaction->rollback('addDrinkSizesError');
+                        return false;
+                    }
             }
             return true;
         } catch (\Phalcon\Mvc\Model\Transaction\Failed $e) {
@@ -96,32 +107,34 @@ class StorePlugin extends \Phalcon\Mvc\User\Plugin {
                 return false;
             }
             foreach ($store_arrays as $key => $_data) {
-                switch ($key) {
-                    case 'categories':
-                        if (false === ($categories = $this->saveStoreCategories($_data, $store_id,  $transaction))){
-                            $transaction->rollback();
-                        }
-                        break;
-                    case 'sugars':
-                        if (false === ($sugars = $this->saveStoreSugars($_data, $store_id,  $transaction))){
-                            $transaction->rollback();
-                        }
-                        break;
-                    case 'coldheats':
-                        if (false === ($coldheats = $this->saveStoreColdHeats($_data, $store_id,  $transaction))){
-                            $transaction->rollback();
-                        }
-                        break;
-                    case 'coldheats_levels':
-                        if (false === ($coldheats_levels = $this->saveStoreColdHeatsLevels($_data, $store_id,  $transaction))){
-                            $transaction->rollback();
-                        }
-                        break;
-                    case 'extras':
-                        if (false === ($extras = $this->saveStoreExtras($_data, $store_id,  $transaction))){
-                            $transaction->rollback();
-                        }
-                        break;
+                if (!is_null($_data) && !empty($_data[0])) {
+                    switch ($key) {
+                        case 'categories':
+                            if (false === ($categories = $this->saveStoreCategories($_data, $store_id,  $transaction))){
+                                $transaction->rollback();
+                            }
+                            break;
+                        case 'sugars':
+                            if (false === ($sugars = $this->saveStoreSugars($_data, $store_id,  $transaction))){
+                                $transaction->rollback();
+                            }
+                            break;
+                        case 'coldheats':
+                            if (false === ($coldheats = $this->saveStoreColdHeats($_data, $store_id,  $transaction))){
+                                $transaction->rollback();
+                            }
+                            break;
+                        case 'coldheats_levels':
+                            if (false === ($coldheats_levels = $this->saveStoreColdHeatsLevels($_data, $store_id,  $transaction))){
+                                $transaction->rollback();
+                            }
+                            break;
+                        case 'extras':
+                            if (false === ($extras = $this->saveStoreExtras($_data, $store_id,  $transaction))){
+                                $transaction->rollback();
+                            }
+                            break;
+                    }
                 }
             }
             $return_store = array(
@@ -130,7 +143,7 @@ class StorePlugin extends \Phalcon\Mvc\User\Plugin {
                 'sugars' => $sugars,
                 'coldheats' => $coldheats,
                 'coldheats_levels' => $coldheats_levels,
-                'extras' => $extras,
+                'extras' => isset($extras) ? $extras : null,
             );
             return $return_store;
         } catch (\Phalcon\Mvc\Model\Transaction\Failed $e) {
@@ -301,6 +314,8 @@ class StorePlugin extends \Phalcon\Mvc\User\Plugin {
         );
         if (false === $drink_categories->add($data)){
             return false;
+        }else {
+            return $data['store_category_id'];
         }
     }
 
