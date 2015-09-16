@@ -1,4 +1,6 @@
-<img src="docs/icon.png" alt="LinInLiao icon" width="250">
+<p align="center">
+  <img src="docs/icon.png" alt="LinInLiao icon" width="250">
+</p>
 
 # LinInLiao
 這是一個 "喝飲料全自動訂購介面"
