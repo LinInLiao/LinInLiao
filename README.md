@@ -1,20 +1,19 @@
+# LinInLiao
+
 <p align="center">
   <img src="docs/icon.png" alt="LinInLiao icon" width="250">
 </p>
 
-# LinInLiao
-這是一個 "喝飲料全自動訂購介面"
-
-![Preview](docs/preview.png)
-
 訂飲料太麻煩嗎？
-每次都要傳單子給大家寫，或者一個一個詢問..
+每次都要傳單子給大家寫，或者一個一個詢問...
 
 > A: 欸你要喝飲料嗎?
 > B: 好阿，喝什麼?
 
-夠了沒，自動完成不是很好嗎？
+夠了沒！？
 
+
+##自己的飲料自己點##
 
 ---
 
