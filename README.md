@@ -1,4 +1,4 @@
-![icon](docs/icon.png =250x)
+<img src="docs/icon.png" alt="LinInLiao icon" width="250">
 
 # LinInLiao
 這是一個 "喝飲料全自動訂購介面"
