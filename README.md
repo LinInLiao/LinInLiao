@@ -1,4 +1,4 @@
-![Preview](docs/icon.png)
+![icon](docs/icon.png =250x)
 
 # LinInLiao
 這是一個 "喝飲料全自動訂購介面"
