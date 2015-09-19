@@ -50,32 +50,32 @@ final class Module {
             ));
         });
 
-        // $di->set('memcache', function() use ($config) {
-        //     return new MemCached(new DataFrontend(array(
-        //         'lifetime' => 3600,
-        //     )), array(
-        //         'servers' => array(array(
-        //             'host' => $config->memcached[ENVIRONMENT]->host,
-        //             'port' => (int) $config->memcached->port,
-        //             'weight' => 1,
-        //         )),
-        //         'client' => array(
-        //             \Memcached::OPT_HASH => \Memcached::HASH_MD5,
-        //             \Memcached::OPT_PREFIX_KEY => $config->memcached->prefix,
-        //             \Memcached::OPT_RECV_TIMEOUT => 1000,
-        //             \Memcached::OPT_SEND_TIMEOUT => 1000,
-        //             \Memcached::OPT_TCP_NODELAY => true,
-        //             \Memcached::OPT_SERVER_FAILURE_LIMIT => 50,
-        //             \Memcached::OPT_CONNECT_TIMEOUT => 500,
-        //             \Memcached::OPT_RETRY_TIMEOUT => 300,
-        //             \Memcached::OPT_DISTRIBUTION => \Memcached::DISTRIBUTION_CONSISTENT,
-        //             \Memcached::OPT_REMOVE_FAILED_SERVERS => true,
-        //             \Memcached::OPT_LIBKETAMA_COMPATIBLE => true
-        //         ),
-        //         'lifetime' => (int) $config->memcached->lifetime,
-        //         'prefix' => $config->memcached->prefix
-        //     ));
-        // });
+        $di->set('memcache', function() use ($config) {
+            return new MemCached(new DataFrontend(array(
+                'lifetime' => 3600,
+            )), array(
+                'servers' => array(array(
+                    'host' => $config->memcached[ENVIRONMENT]->host,
+                    'port' => (int) $config->memcached->port,
+                    'weight' => 1,
+                )),
+                'client' => array(
+                    \Memcached::OPT_HASH => \Memcached::HASH_MD5,
+                    \Memcached::OPT_PREFIX_KEY => $config->memcached->prefix,
+                    \Memcached::OPT_RECV_TIMEOUT => 1000,
+                    \Memcached::OPT_SEND_TIMEOUT => 1000,
+                    \Memcached::OPT_TCP_NODELAY => true,
+                    \Memcached::OPT_SERVER_FAILURE_LIMIT => 50,
+                    \Memcached::OPT_CONNECT_TIMEOUT => 500,
+                    \Memcached::OPT_RETRY_TIMEOUT => 300,
+                    \Memcached::OPT_DISTRIBUTION => \Memcached::DISTRIBUTION_CONSISTENT,
+                    \Memcached::OPT_REMOVE_FAILED_SERVERS => true,
+                    \Memcached::OPT_LIBKETAMA_COMPATIBLE => true
+                ),
+                'lifetime' => (int) $config->memcached->lifetime,
+                'prefix' => $config->memcached->prefix
+            ));
+        });
 
         $di->set('dispatcher', function() use ($di, $config) {
             $eventsManager = new Manager();

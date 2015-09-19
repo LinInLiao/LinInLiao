@@ -10,7 +10,7 @@ defined('ROOT') || define('ROOT', dirname( dirname( __FILE__ ) ) );
 defined('DS') || define('DS', DIRECTORY_SEPARATOR);
 
 if (!defined('ENVIRONMENT')) {
-    $environment = getenv('BHUNTR_ENV');
+    $environment = getenv('LININLIAO_ENV');
     if (!$environment || !in_array($environment, array('development', 'staging', 'production'), true)) {
         define('ENVIRONMENT', 'development');
     } else {
@@ -112,49 +112,49 @@ try {
      * Start the session the first time some component request the session service
      */
 
-    // $di->set('cookies', function() use ($config) {
-    //     $cookies = new \Phalcon\Http\Response\Cookies();
-    //     $cookies->useEncryption(true);
+    $di->set('cookies', function() use ($config) {
+        $cookies = new \Phalcon\Http\Response\Cookies();
+        $cookies->useEncryption(true);
 
-    //     return $cookies;
-    // }, true);
+        return $cookies;
+    }, true);
 
-    // $di->set('session', function() use ($config) {
-    //     $session = new Session(array(
-    //         'servers' => array(array(
-    //             'host' => $config->memcached[ENVIRONMENT]->host,
-    //             'port' => (int) $config->memcached->port,
-    //             'weight' => 1,
-    //         )),
-    //         'client' => array(
-    //             \Memcached::OPT_HASH => \Memcached::HASH_MD5,
-    //             \Memcached::OPT_PREFIX_KEY => $config->memcached->prefix,
-    //             \Memcached::OPT_RECV_TIMEOUT => 1000,
-    //             \Memcached::OPT_SEND_TIMEOUT => 1000,
-    //             \Memcached::OPT_TCP_NODELAY => true,
-    //             \Memcached::OPT_SERVER_FAILURE_LIMIT => 50,
-    //             \Memcached::OPT_CONNECT_TIMEOUT => 500,
-    //             \Memcached::OPT_RETRY_TIMEOUT => 300,
-    //             \Memcached::OPT_DISTRIBUTION => \Memcached::DISTRIBUTION_CONSISTENT,
-    //             \Memcached::OPT_REMOVE_FAILED_SERVERS => true,
-    //             \Memcached::OPT_LIBKETAMA_COMPATIBLE => true
-    //         ),
-    //         'lifetime' => (int) $config->memcached->lifetime,
-    //         'prefix' => $config->memcached->prefix
-    //     ));
-    //     if ($session->status() !== $session::SESSION_ACTIVE) {
-    //         $domain = Domain::get();
-    //         session_set_cookie_params((int) $config->memcached->lifetime, '/', '.'.$domain, (boolean) $config->cookie->secure, (boolean) $config->cookie->httponly);
-    //         $session->start();
-    //     }
-    //     return $session;
-    // }, true);
+    $di->set('session', function() use ($config) {
+        $session = new Session(array(
+            'servers' => array(array(
+                'host' => $config->memcached[ENVIRONMENT]->host,
+                'port' => (int) $config->memcached->port,
+                'weight' => 1,
+            )),
+            'client' => array(
+                \Memcached::OPT_HASH => \Memcached::HASH_MD5,
+                \Memcached::OPT_PREFIX_KEY => $config->memcached->prefix,
+                \Memcached::OPT_RECV_TIMEOUT => 1000,
+                \Memcached::OPT_SEND_TIMEOUT => 1000,
+                \Memcached::OPT_TCP_NODELAY => true,
+                \Memcached::OPT_SERVER_FAILURE_LIMIT => 50,
+                \Memcached::OPT_CONNECT_TIMEOUT => 500,
+                \Memcached::OPT_RETRY_TIMEOUT => 300,
+                \Memcached::OPT_DISTRIBUTION => \Memcached::DISTRIBUTION_CONSISTENT,
+                \Memcached::OPT_REMOVE_FAILED_SERVERS => true,
+                \Memcached::OPT_LIBKETAMA_COMPATIBLE => true
+            ),
+            'lifetime' => (int) $config->memcached->lifetime,
+            'prefix' => $config->memcached->prefix
+        ));
+        if ($session->status() !== $session::SESSION_ACTIVE) {
+            $domain = Domain::get();
+            session_set_cookie_params((int) $config->memcached->lifetime, '/', '.'.$domain, (boolean) $config->cookie->secure, (boolean) $config->cookie->httponly);
+            $session->start();
+        }
+        return $session;
+    }, true);
 
-    // $di->set('csrf_session_bag', function() use ($di) {
-    //     $csrf_session_bag = new \Phalcon\Session\Bag('CSRF_SESSION_BAG');
-    //     $csrf_session_bag->setDI($di);
-    //     return $csrf_session_bag;
-    // }, true);
+    $di->set('csrf_session_bag', function() use ($di) {
+        $csrf_session_bag = new \Phalcon\Session\Bag('CSRF_SESSION_BAG');
+        $csrf_session_bag->setDI($di);
+        return $csrf_session_bag;
+    }, true);
 
     $di->set('url', function() {
         return new \Phalcon\Mvc\Url();

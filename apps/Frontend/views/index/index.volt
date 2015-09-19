@@ -2,9 +2,8 @@
 {% if Stores is defined AND Stores is not false %}
   <ul>
   {% for store in Stores %}
-    <li><a href="testMenu/{{ store.id }}">{{ store.name }}</a></li>
 
-  {{ dump(store) }}
+    <li><span>{{ store.name }}</span> <a href="/order/hook/{{ store.id }}">Hook Order</a></li>
   {% endfor %}
   </ul>
 {% endif %}

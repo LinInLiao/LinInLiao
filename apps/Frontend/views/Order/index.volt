@@ -49,7 +49,6 @@
     },
     render: function(){
       var menu_rows = this.renderMenus(this.state.menus);
-
       return (
           <ul>{menu_rows}</ul>
       );
