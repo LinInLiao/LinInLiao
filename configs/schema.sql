@@ -1,3 +1,4 @@
+
 DROP TABLE IF EXISTS `drinks`;
 CREATE TABLE `drinks` (
   `id` char(36) COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -11,7 +12,6 @@ CREATE TABLE `drinks` (
   KEY `store_id` (`store_id`),
   CONSTRAINT `drinks_ibfk_1` FOREIGN KEY (`store_id`) REFERENCES `stores` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
 
 
 DROP TABLE IF EXISTS `drink_categories`;
@@ -101,12 +101,57 @@ CREATE TABLE `drink_sugars` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 
+DROP TABLE IF EXISTS `orders`;
+CREATE TABLE `orders` (
+  `id` char(36) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `store_id` char(36) CHARACTER SET utf8mb4 NOT NULL,
+  `uid` int(11) NOT NULL,
+  `title` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `notes` varchar(500) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `status` enum('active','cancel','deleted') COLLATE utf8mb4_unicode_ci NOT NULL,
+  `deadline` datetime NOT NULL,
+  `created` datetime NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `store_id` (`store_id`),
+  CONSTRAINT `orders_ibfk_1` FOREIGN KEY (`store_id`) REFERENCES `stores` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+
+DROP TABLE IF EXISTS `order_drinks`;
+CREATE TABLE `order_drinks` (
+  `id` int(11) NOT NULL,
+  `order_id` char(36) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `drink_id` char(36) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `store_coldheat_id` char(36) CHARACTER SET utf8mb4 NOT NULL,
+  `store_coldheat_level_id` char(36) CHARACTER SET utf8mb4 NOT NULL,
+  `store_sugar_id` char(36) CHARACTER SET utf8mb4 NOT NULL,
+  `order_name` char(36) CHARACTER SET utf8mb4 NOT NULL,
+  `uid` int(11) NOT NULL,
+  `username` varchar(100) CHARACTER SET utf8mb4 DEFAULT NULL,
+  `amount` int(4) NOT NULL,
+  `notes` varchar(500) CHARACTER SET utf8mb4 NOT NULL,
+  `status` enum('active','deleted') CHARACTER SET utf8mb4 NOT NULL,
+  `created` datetime NOT NULL,
+  KEY `drink_id` (`drink_id`),
+  KEY `store_coldheat_id` (`store_coldheat_id`),
+  KEY `store_coldheat_level_id` (`store_coldheat_level_id`),
+  KEY `store_sugar_id` (`store_sugar_id`),
+  KEY `order_id` (`order_id`),
+  CONSTRAINT `order_drinks_ibfk_1` FOREIGN KEY (`drink_id`) REFERENCES `drinks` (`id`),
+  CONSTRAINT `order_drinks_ibfk_2` FOREIGN KEY (`store_coldheat_id`) REFERENCES `store_coldheats` (`id`),
+  CONSTRAINT `order_drinks_ibfk_3` FOREIGN KEY (`store_coldheat_level_id`) REFERENCES `store_coldheats_levels` (`id`),
+  CONSTRAINT `order_drinks_ibfk_4` FOREIGN KEY (`store_sugar_id`) REFERENCES `store_sugars` (`id`),
+  CONSTRAINT `order_drinks_ibfk_5` FOREIGN KEY (`order_id`) REFERENCES `orders` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+
 DROP TABLE IF EXISTS `stores`;
 CREATE TABLE `stores` (
   `id` char(36) NOT NULL,
   `alias` varchar(191) NOT NULL,
   `name` varchar(100) NOT NULL,
   `cover` int(11) NOT NULL,
+  `status` enum('active','deleted') NOT NULL,
   `created` datetime NOT NULL,
   `modified` datetime NOT NULL,
   PRIMARY KEY (`id`),
@@ -175,3 +220,6 @@ CREATE TABLE `store_sugars` (
   KEY `store_id` (`store_id`),
   CONSTRAINT `store_sugars_ibfk_1` FOREIGN KEY (`store_id`) REFERENCES `stores` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+
+-- 2015-09-19 04:26:06
