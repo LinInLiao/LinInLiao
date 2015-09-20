@@ -1,0 +1,58 @@
+{
+  "name": "webpack",
+  "version": "0.0.0",
+  "description": "A React/Flux app generate by RF, powered with Babel",
+  "main": "build/bundle.js",
+  "dependencies": {
+    "flux": "^2.0.3",
+    "object-assign": "^2.0.0",
+    "react": "^0.13.3"
+  },
+  "devDependencies": {
+    "babel-jest": "*",
+    "babel-loader": "*",
+    "bootstrap": "*",
+    "bootstrap-webpack": "*",
+    "css-loader": "*",
+    "file-loader": "*",
+    "imports-loader": "*",
+    "jest-cli": "*",
+    "jquery": "*",
+    "node-sass": "*",
+    "react-hot-loader": "*",
+    "react-tools": "*",
+    "sass-loader": "*",
+    "style-loader": "*",
+    "underscore": "^1.8.3",
+    "url-loader": "*",
+    "webpack": "*",
+    "webpack-dev-server": "*"
+  },
+  "scripts": {
+    "build": "webpack --config webpack.prod.config.js",
+    "dev": "webpack-dev-server --config webpack.dev.config.js --colors --content-base-target 'http://lininliao.dev'",
+    "test": "jest"
+  },
+  "author": "",
+  "license": "",
+  "jest": {
+    "scriptPreprocessor": "<rootDir>/preprocessor.js",
+    "testFileExtensions": [
+      "js"
+    ],
+    "moduleFileExtensions": [
+      "js",
+      "json"
+    ],
+    "globals": {
+      "SCRIPTS": "<rootDir>/src/scripts"
+    },
+    "testPathIgnorePatterns": [
+      "/node_modules/",
+      "<rootDir>/node_modules/"
+    ],
+    "unmockedModulePathPatterns": [
+      "<rootDir>/node_modules/react"
+    ]
+  }
+}
