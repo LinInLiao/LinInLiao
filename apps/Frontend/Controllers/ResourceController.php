@@ -13,14 +13,26 @@ use Lininliao\Frontend\Controllers\BaseController,
 
 class ResourceController extends BaseController
 {
+    public function storesAction() {
+        $stores = StoreComponent::getStores();
+        if ($stores !== false) {
+            $data = array(
+                'stores' => $stores,
+                'status' => 'ok',
+            );
+        }
+        BaseControllerPlugin::responseJson($data);
+    }
+
+
     public function orderStoreAction() {
         $order_id = $this->getParams('order_id');
         $order = Orders::getById($order_id);
         $store_component = new StoreComponent();
-        $menus = $store_component->getStoreDrinks($order->store_id);
-        if ($menus !== false) {
+        $drinks = $store_component->getStoreDrinks($order->store_id);
+        if ($drinks !== false) {
             $data = array(
-                'menus' => $menus,
+                'drinks' => $drinks,
                 'status' => 'ok',
             );
         }
@@ -31,7 +43,6 @@ class ResourceController extends BaseController
         $order_id = $this->getParams('drink_id');
         $coldheat_id = $this->getParams('coldheat_id');
         $drink_component = new DrinkComponent();
-
     }
 
 }

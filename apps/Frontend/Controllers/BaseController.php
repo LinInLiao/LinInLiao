@@ -5,6 +5,12 @@ namespace Lininliao\Frontend\Controllers;
 class BaseController extends \Phalcon\Mvc\Controller
 {
     public function initialize() {
+        if (false === strpos($_SERVER['HTTP_HOST'], ':8080')) {
+            $this->view->setVar('liveload' , false);
+        }else {
+            $this->view->setVar('liveload' , true);
+        }
+
     }
 
     protected function getParams( $key = null, $default = null ) {

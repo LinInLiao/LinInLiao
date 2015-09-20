@@ -41,15 +41,20 @@ $router->add('/order/{order_id:[a-z0-9\-_A-Z]+}/ajax/store', array(
 /*
   resouces
 */
+$router->add('/resource/stores', array(
+    'controller'    => 'Resource',
+    'action'        => 'stores'
+))->setName('resouce-stores');
+
 $router->add('/resource/oStore/{order_id:[a-z0-9\-_A-Z]+}', array(
     'controller'    => 'Resource',
     'action'        => 'orderStore'
 ))->setName('resouce-order-store');
 
-$router->add('/resource/odrink/{drink_id:[a-z0-9\-_A-Z]+}/{coldheat_id:[a-z0-9\-_A-Z]+}', array(
-    'controller'    => 'Resource',
-    'action'        => 'orderDrink'
-))->setName('resouce-order-drink');
+// $router->add('/resource/odrink/{drink_id:[a-z0-9\-_A-Z]+}/{coldheat_id:[a-z0-9\-_A-Z]+}', array(
+//     'controller'    => 'Resource',
+//     'action'        => 'orderDrink'
+// ))->setName('resouce-order-drink');
 
 
 $router->add('/order/hook/{store_id:[a-z0-9\-_A-Z]+}', array(

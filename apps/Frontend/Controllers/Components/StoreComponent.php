@@ -19,6 +19,12 @@ use Lininliao\Plugins\UUID,
 
 final class StoreComponent extends \Phalcon\DI\Injectable {
 
+
+    public static function getStores() {
+        $stores = Stores::getStores();
+        return $stores->toArray();
+    }
+
     public function getStoreDrinks($store_id) {
         $storeCategories = StoreCategories::getStoreCategories($store_id);
         $storeColdHeats = StoreColdHeats::getStoreColdHeats($store_id);
