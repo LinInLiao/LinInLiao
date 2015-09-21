@@ -11,6 +11,12 @@ module.exports = {
     filename: "bundle.js"
   },
   plugins: [
+    new webpack.ProvidePlugin({
+        $: 'jquery',
+        jQuery: 'jquery',
+        'window.jQuery': 'jquery',
+        'root.jQuery': 'jquery'
+    }),
     new webpack.NoErrorsPlugin()
   ],
   resolve: {
