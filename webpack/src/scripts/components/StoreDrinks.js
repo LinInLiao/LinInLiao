@@ -1,6 +1,5 @@
 import React from 'react';
 import _ from 'underscore';
-import $ from 'jQuery';
 
 
 const StoreDrinks = React.createClass({
