@@ -43,15 +43,17 @@ final class StoreComponent extends \Phalcon\DI\Injectable {
             $categories = array();
 
             foreach ($storeCategories as $category) {
-                $category->drinks = $this->getDrinksByColdHeatAndCategory($coldheat->id, $category->id);
-                array_push($categories , (array) $category);
+                $drinks = $this->getDrinksByColdHeatAndCategory($coldheat->id, $category->id);
+                if (count($drinks) > 0) {
+                    $category->drinks = $this->getDrinksByColdHeatAndCategory($coldheat->id, $category->id);
+                    array_push($categories , (array) $category);
+                }
             }
             $coldheats = array(
                 'name' => $coldheat->name,
                 'coldheat_id' => $coldheat->id,
                 'categories' => $categories,
             );
-
             array_push($coldheat_drinks, $coldheats);
         }
 
@@ -62,7 +64,7 @@ final class StoreComponent extends \Phalcon\DI\Injectable {
     private function getDrinksByColdHeatAndCategory($coldheat_id, $category_id) {
         $drinks = array();
         $builder = $this->modelsManager->createBuilder();
-        $builder->columns(array('d.id as drink_id', 'd.name as drink_name'));
+        $builder->columns(array('d.id as drink_id', 'd.name as drink_name', 'dch.id as drink_coldheat'));
         $builder->addFrom('Lininliao\Models\Drink\DrinkCategories', 'dc');
         $builder->innerJoin('Lininliao\Models\Drinks', 'd.id = dc.drink_id', 'd');
         $builder->innerJoin('Lininliao\Models\Drink\DrinkColdheats', 'd.id = dch.drink_id', 'dch');

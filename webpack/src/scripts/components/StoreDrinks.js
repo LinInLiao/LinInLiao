@@ -29,7 +29,7 @@ const StoreDrinks = React.createClass({
   renderDrinks: function(drinks) {
     var drinks_list = drinks.map(function(item){
       return (
-          <div className="list-group-item">{item.drink_name}</div>
+          <a href={this.state.order_id + '/' + item.drink_id + '/' + item.drink_coldheat} className="list-group-item">{item.drink_name}</a>
       );
     }.bind(this));
     return (<div className="list-group">{drinks_list}</div>);

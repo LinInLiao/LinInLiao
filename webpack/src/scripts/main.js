@@ -6,6 +6,8 @@ require('../assets/stylesheets/style.sass');
 import Header from './components/Header.js';
 import Stores from './components/Stores.js';
 import StoreDrinks from './components/StoreDrinks.js';
+import Drink from './components/Drink.js';
+
 
 
 import React from 'react';
@@ -21,4 +23,8 @@ if (document.getElementById('stores') !== null) {
 
 if (document.getElementById('store-drinks') !== null) {
   React.render(<StoreDrinks />, document.getElementById('store-drinks'));
+}
+
+if (document.getElementById('drink') !== null) {
+  React.render(<Drink />, document.getElementById('drink'));
 }

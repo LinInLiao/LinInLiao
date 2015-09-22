@@ -14,7 +14,7 @@ module.exports = {
     filename: "bundle.js"
   },
   plugins: [
-    new Webpack.ProvidePlugin({
+    new webpack.ProvidePlugin({
         $: 'jquery',
         jQuery: 'jquery',
         'window.jQuery': 'jquery',

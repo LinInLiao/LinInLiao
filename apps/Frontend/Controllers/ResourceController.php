@@ -24,7 +24,6 @@ class ResourceController extends BaseController
         BaseControllerPlugin::responseJson($data);
     }
 
-
     public function orderStoreAction() {
         $order_id = $this->getParams('order_id');
         $order = Orders::getById($order_id);
@@ -35,14 +34,23 @@ class ResourceController extends BaseController
                 'drinks' => $drinks,
                 'status' => 'ok',
             );
+            BaseControllerPlugin::responseJson($data);
         }
-        BaseControllerPlugin::responseJson($data);
     }
 
     public function orderDrinkAction() {
-        $order_id = $this->getParams('drink_id');
+        $drink_id = $this->getParams('drink_id');
         $coldheat_id = $this->getParams('coldheat_id');
         $drink_component = new DrinkComponent();
+        $drink = $drink_component->getDrink($drink_id, $coldheat_id);
+        if ($drink !== false) {
+            $data = array(
+                'drink' => $drink,
+                'status' => 'ok',
+            );
+            BaseControllerPlugin::responseJson($data);
+
+        }
     }
 
 }
