@@ -1,12 +1,24 @@
-$font-stack:    Helvetica, sans-serif
-$font-size:    15px
+@import 'compass/css3'
 
-$color-blue-light: #77c4e0
+$font-stack: Helvetica, sans-serif
+$font-light: STHeiti-Light
+$font-medium: STHeiti-Medium
+
+$color-blue-light: #76C4DF
+$text-gray: #BDC3C7
+$background-gray: #F7F7F7
 
 
-.page-wrapper
+@import 'components'
+
+
+html
+  font-size: 100%
+  $import box-sizing(border-box)
+body
   font-family: $font-stack
-  font-size: $font-size
+  font-size: 1rem
+
 .header-wrap
   width: 100%
   height: 50px
@@ -15,7 +27,7 @@ $color-blue-light: #77c4e0
   text-align: center
   h1
     margin: 0 auto
-    font-size: 30px
+    font-size: 1.375rem
     color: white
     vertical-align: middle
     display: inline-block

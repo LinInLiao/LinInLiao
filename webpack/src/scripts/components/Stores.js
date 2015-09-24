@@ -31,8 +31,16 @@ const Stores = React.createClass({
     stores.map(function(item){
       var hook_link = 'order/hook/' + item.id;
       store_rows.push(
-        <a key={item.id} href={hook_link} className="list-group-item">
-          <span>{item.name}</span>(點擊產生訂單)
+        <a key={item.id} href={hook_link}>
+          <div className="lin-card">
+            <div className="card-image-wrap">
+              <div className="card-image"><img src="http://fakeimg.pl/200/"/></div>
+            </div>
+            <div className="card-text">
+              <div className="card-title">{item.name}</div>
+              <div className="card-description">$20</div>
+            </div>
+          </div>
         </a>);
     });
     return store_rows;

@@ -1,0 +1,37 @@
+a
+  &:link, &:hover
+    text-decoration: none
+
+.lin-card
+  @include border-radius(10px)
+  text-align: center
+  display: block
+  background-color: white
+  border: 1px inside #ECF0F1
+  box-shadow: 0 1px 6px #f7f7f7, 0 1px 4px #f7f7f7
+  height: 220px
+  margin: 8px
+  .card-text
+    background-color: $background-gray
+    padding: 12px
+  .card-title
+    color: $color-blue-light
+    font-size: 1rem
+    font-family: $font-medium
+    margin-bottom: 2px
+  .card-description
+    color: $text-gray
+    font-size: 0.875rem
+    font-family: $font-light
+  .card-image-wrap
+    padding: 15px
+  .card-image
+    @include border-radius(123px)
+    margin: 0 auto
+    width: 123px
+    height: 123px
+    background-color: $background-gray
+    overflow: hidden
+    img
+      width: 100%
+      height: auto
