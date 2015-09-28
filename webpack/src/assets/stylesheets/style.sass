@@ -6,7 +6,8 @@ $font-medium: STHeiti-Medium
 
 $color-blue-light: #76C4DF
 $text-gray: #BDC3C7
-$background-gray: #F7F7F7
+$border-gray: #ECF0F1
+$background-gray: #ECF0F1
 
 
 @import 'components'
@@ -14,10 +15,15 @@ $background-gray: #F7F7F7
 
 html
   font-size: 100%
-  $import box-sizing(border-box)
+  @include box-sizing(border-box)
+
 body
   font-family: $font-stack
   font-size: 1rem
+  min-width: 414px
+
+#main
+  padding-top: 15px
 
 .header-wrap
   width: 100%
@@ -31,3 +37,14 @@ body
     color: white
     vertical-align: middle
     display: inline-block
+
+
+.drinks
+  .category-title
+    color: $color-blue-light
+    font-size: 1.125rem
+    border-bottom: 1px solid $border-gray
+    text-align: center
+    margin-bottom: 15px
+    padding-bottom: 10px
+    margin: 15px 4px 15px 4px

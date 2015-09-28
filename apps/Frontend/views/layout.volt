@@ -13,7 +13,9 @@
     <![endif]-->
     <div class="page-wrapper">
       <div id="header"></div>
-      {% block content %}{% endblock %}
+      <div id="main">
+        {% block content %}{% endblock %}
+      </div>
     </div>
     {% if liveload is true %}
       <script src="/bundle.js"></script>

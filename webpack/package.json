@@ -21,6 +21,7 @@
     "jquery": "*",
     "node-sass": "*",
     "react-hot-loader": "*",
+    "react-simpletabs": "^0.7.0",
     "react-tools": "*",
     "sass-loader": "*",
     "style-loader": "*",
