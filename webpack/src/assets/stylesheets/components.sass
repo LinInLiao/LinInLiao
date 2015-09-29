@@ -59,6 +59,47 @@ a
     border-bottom: 4px solid $color-blue-light
     color: $color-blue-light
 
+.radio-boxs
+  text-align: center
+
+.radio-button
+  height: 90px
+  width: 65px
+  text-align: center
+  padding: 0px 10px
+  overflow: hidden
+  display: inline-block
+  position: relative
+  border: 2px solid $border-gray
+  margin: 0 3px
+  overflow:hidden
+  @include border-radius(8px)
+  &.actived
+    border: 0px
+    background-color: $color-blue-light
+    .radio-price, .radio-name
+      color: #fff
+  .radio-text
+    position: relative
+    top: 25%
+  .radio-name
+    color: $color-blue-medium
+  .radio-price
+    color: $text-gray
+    font-size: 0.875rem
+  input
+    position: absolute
+    cursor: pointer
+    pointer-events: all
+    opacity: 0
+    width: 100%
+    height: 100%
+    z-index: 2
+    left: 0
+    box-sizing: border-box
+    padding: 0
+    margin: 0
+
 .container
   margin-right: auto
   margin-left: auto

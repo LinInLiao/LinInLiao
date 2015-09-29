@@ -51,7 +51,7 @@ const Stores = React.createClass({
   },
   render: function(){
     return (
-        <div className="container">
+        <div className="stores container">
           <div className="lin-grid">{this.state.stores}</div>
         </div>
     );
