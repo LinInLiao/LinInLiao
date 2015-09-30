@@ -1,4 +1,5 @@
 require('bootstrap-webpack');
+require('react/addons');
 require('../assets/stylesheets/style.sass');
 
 // TODO: Require assets here.

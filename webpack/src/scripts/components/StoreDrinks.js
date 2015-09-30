@@ -1,5 +1,8 @@
 import React from 'react';
 import _ from 'underscore';
+import Card from './Card.js';
+import Tabs from 'react-simpletabs';
+
 
 
 const StoreDrinks = React.createClass({
@@ -28,11 +31,23 @@ const StoreDrinks = React.createClass({
   },
   renderDrinks: function(drinks) {
     var drinks_list = drinks.map(function(item){
+      var hook_link = 'order/hook/' + item.id;
+      var imageStyles = {"width": "80%"};
+      var image = "/images/icon.svg"
       return (
-          <a href={this.state.order_id + '/' + item.drink_id + '/' + item.drink_coldheat} className="list-group-item">{item.drink_name}</a>
+        <div key={item.drink_id} className="col-xs-6 col-md-4 col-lg-3">
+          <Card
+            link={this.state.order_id + '/' + item.drink_id + '/' + item.drink_coldheat}
+            image={image}
+            title={item.drink_name}
+            subtitle="20元"
+            imageStyles={imageStyles}
+          >
+          </Card>
+        </div>
       );
     }.bind(this));
-    return (<div className="list-group">{drinks_list}</div>);
+    return (drinks_list);
   },
   renderCategories: function(categories) {
     var categories_list = categories.map(function(item){
@@ -42,33 +57,35 @@ const StoreDrinks = React.createClass({
          return;
       }
       return (
-        <div className="panel panel-primary">
-          <div className="panel-heading">{item.name}</div>
-          <div className="panel-body">{drinks}</div>
+        <div key={item.id} className="category-group clearfix">
+          <div className="category-title">{item.name}</div>
+          <div className="category-drinks lin-grid">{drinks}</div>
         </div>
       );
     }.bind(this));
     return (categories_list);
   },
+  renderTabs: function(tabs) {
+    var tabSelectedIndex = 1;
+    var tabs_list = tabs.map(function(item){
+      return (
+        <Tabs.Panel key={item.coldheatid} title={item.name}>
+          {this.renderCategories(item.categories)}
+        </Tabs.Panel>
+      );
+    }.bind(this));
+    return (<Tabs className="lin-tabs">{tabs_list}</Tabs>);
+  },
   render: function(){
-    var store_list = false;
+    var store_menu = '';
     if (this.state.store_drinks !== false) {
-      store_list = this.state.store_drinks.map(function(item){
-        if (item.categories.length > 0) {
-          var categories = this.renderCategories(item.categories);
-        }else {
-          return;
-        }
-        return (
-          <div className="panel panel-primary">
-            <div className="panel-heading">{item.name}</div>
-            <div className="panel-body">{categories}</div>
-          </div>
-        );
-      }.bind(this));
+      store_menu = this.renderTabs(this.state.store_drinks);
     }
+
     return (
-        <div>{store_list}</div>
+        <div className="drinks container">
+          {store_menu}
+        </div>
     );
   }
 });

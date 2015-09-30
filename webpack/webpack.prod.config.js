@@ -1,4 +1,5 @@
 var webpack = require('webpack');
+var path = require("path");
 
 module.exports = {
   entry: {
@@ -32,7 +33,8 @@ module.exports = {
 
       {
         test: /\.sass$/,
-        loader: "style!css!sass?indentedSyntax=true&outputStyle=expanded"
+        loader: "style!css!sass?indentedSyntax=true&outputStyle=expanded" +
+        '&includePaths[]=' + path.resolve(__dirname, './node_modules/compass-mixins/lib')
       },
 
       {
