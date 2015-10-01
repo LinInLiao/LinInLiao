@@ -20,6 +20,7 @@
     "jest-cli": "*",
     "jquery": "*",
     "node-sass": "*",
+    "react-hammerjs": "^0.3.0",
     "react-hot-loader": "*",
     "react-simpletabs": "^0.7.0",
     "react-tools": "*",
