@@ -24,6 +24,7 @@ const DragSelect = React.createClass({
       onPanFinished: true,
       onPanMove: 0,
       showLimit: 3,
+      offsetLeft: 0,
     }
   },
   componentDidMount: function() {
@@ -33,6 +34,7 @@ const DragSelect = React.createClass({
     if (newProps.children.length != this.state.itemCounts) {
       this.setState({
         itemCounts: newProps.children.length,
+        offsetLeft: (this.state.showLimit - 3) * (this.state.itemWidth / 2),
       });
     }
   },
@@ -114,10 +116,10 @@ const DragSelect = React.createClass({
     var renderDragSelect = this.renderSelectItems(this.props.children);
 
     if (this.state.onPanFinished === true) {
-      var left = (this.state.itemIndex - 1 ) * - this.state.itemWidth;
+      var left = this.state.offsetLeft + (this.state.itemIndex - 1 ) * - this.state.itemWidth;
       var transition = "left 0.5s";
     }else {
-      var left  = (this.state.itemIndex - 1 ) * - this.state.itemWidth + (this.state.onPanMove / 3);
+      var left  = this.state.offsetLeft + (this.state.itemIndex - 1 ) * - this.state.itemWidth + (this.state.onPanMove / 3);
       var transition = "inherit";
     }
     var wrapper_style = {
@@ -147,7 +149,6 @@ const DragSelect = React.createClass({
   DragSelect.SelectItem = React.createClass({
     propTypes: {
       title: React.PropTypes.string.isRequired,
-      selectName: React.PropTypes.string.isRequired,
       selectKey: React.PropTypes.string.isRequired,
       itemStyle: React.PropTypes.object
     },
