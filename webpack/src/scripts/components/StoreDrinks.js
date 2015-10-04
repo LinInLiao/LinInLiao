@@ -8,7 +8,7 @@ import Tabs from 'react-simpletabs';
 const StoreDrinks = React.createClass({
   getInitialState: function() {
     return {
-      store_drinks: false,
+      store_drinks: [],
       order_id: _.last(window.location.href.split("/"))
     };
   },
@@ -78,9 +78,7 @@ const StoreDrinks = React.createClass({
   },
   render: function(){
     var store_menu = '';
-    if (this.state.store_drinks !== false) {
       store_menu = this.renderTabs(this.state.store_drinks);
-    }
 
     return (
         <div className="drinks container">

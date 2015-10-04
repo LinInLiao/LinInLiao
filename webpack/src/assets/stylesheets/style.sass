@@ -11,6 +11,8 @@ $font-Righteous-Regular : Righteous-Regular
 $font-STHeitiTC-Light : STHeitiTC-Light
 $font-STHeitiTC-Medium : STHeitiTC-Medium
 
+
+$color-blue-slight: #95d9f1
 $color-blue-light: #76C4DF
 $color-blue-medium: #64B7CE
 $text-gray: #BDC3C7
@@ -130,6 +132,7 @@ body
   .plus
     border: 0px
     background-color: $color-blue-light
+    cursor: pointer
     &:before
       position: relative
       top: -2px
@@ -137,6 +140,7 @@ body
     border: 0px
     background-color: $background-gray
     color: $text-gray
+    cursor: pointer
     &:before
       position: relative
       top: -2px
@@ -178,4 +182,36 @@ body
   input[type="checkbox"]:checked + label
     border: 9px solid $color-blue-medium
     .extra-text
-      top: 24px
+      top: 25px
+
+.choice-ice
+  padding-top: 45px
+  position: relative
+  &:before
+    position: absolute
+    left: 50%
+    top: 0
+    content: " "
+    background-image: url("/images/ice-icon.png")
+    background-size: 100% 100%
+    display: block
+    margin: 0 auto
+    width: 30px
+    height: 30px
+    margin-left: -15px
+
+.choice-sugar
+  padding-top: 45px
+  position: relative
+  &:before
+    position: absolute
+    left: 50%
+    top: 0
+    content: " "
+    background-image: url("/images/sugar-icon.png")
+    background-size: 100% 100%
+    display: block
+    margin: 0 auto
+    width: 30px
+    height: 30px
+    margin-left: -15px

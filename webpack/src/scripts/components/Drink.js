@@ -1,8 +1,26 @@
 import React from 'react';
 import _ from 'underscore';
+var DragSelect = require('./DragSelect.js');
+
+require('react/addons');
+
+
+var ReactCSSTransitionGroup = React.addons.CSSTransitionGroup;
 
 var Hammer = require('react-hammerjs');
-var HammerOptions = {touchAction:true, recognizers:{tap:{time:600, threshold:100}}};
+
+var HammerOptions = {
+  touchAction:true,
+  recognizers:{
+    tap:{
+      time:600, threshold:100
+    },
+    pan:{
+      event: Hammer.panend
+    }
+  }
+};
+
 
 const RadioSizeBox = React.createClass({
   propTypes: {
@@ -28,6 +46,8 @@ const RadioSizeBox = React.createClass({
   }
 });
 
+
+
 const Drink = React.createClass({
   getInitialState: function() {
     var path = window.location.href.split("/").reverse();
@@ -44,6 +64,8 @@ const Drink = React.createClass({
         name: '',
         sizes: [],
         extras: [],
+        coldheat_levels: [],
+        sugars: [],
       },
       selected: {
         size: '',
@@ -101,13 +123,20 @@ const Drink = React.createClass({
       });
     }
   },
+  handleSubmitOrder: function(e) {
+    e.preventDefault();
+    var form = e.target;
+    var drink_size = form.elements.drinkSizes.value;
+    console.log(form.elements.drinkExtras);
+
+  },
   render: function(){
     console.log('render');
     var progress_completed = { "width": "50%"};
     return (
       <div className="drink">
         <div className="drink-name">{this.state.drink_data.name}</div>
-        <form>
+        <form onSubmit={this.handleSubmitOrder}>
           <div className="drink-progress">
             <div className="shark-bg"></div>
             <div style={progress_completed} className="shark-completed"></div>
@@ -120,9 +149,38 @@ const Drink = React.createClass({
           <hr/>
           <div className="choice-size" onChange={this.handleSizeSelected}>
             {this.state.drink_data.sizes.map(function(item){
-                return (<RadioSizeBox key={item.id} itemSelected={this.state.selected.size} itemName={item.name} itemKey={item.id} itemPrice={item.price} />)
-              }.bind(this))}
+              return (<RadioSizeBox key={item.id} itemSelected={this.state.selected.size} itemName={item.name} itemKey={item.id} itemPrice={item.price}/>)
+            }.bind(this))}
           </div>
+          <hr/>
+          <div className="choice-ice">
+            <DragSelect>
+              {this.state.drink_data.coldheat_levels.map(function(item){
+                 return (
+                    <DragSelect.SelectItem
+                      key={item.store_coldheat_level_id}
+                      title={item.name}
+                      selectKey={item.store_coldheat_level_id}
+                      ref={item.store_coldheat_level_id}/>
+                  )
+              })}
+              </DragSelect>
+          </div>
+          <hr/>
+          <div className="choice-sugar">
+            <DragSelect>
+              {this.state.drink_data.sugars.map(function(item){
+                 return (
+                    <DragSelect.SelectItem
+                      key={item.store_sugar_id}
+                      title={item.name}
+                      selectKey={item.store_sugar_id}
+                      ref={item.store_sugar_id}/>
+                  )
+              })}
+              </DragSelect>
+          </div>
+
           <hr/>
           <div className="choice-extra">
             {this.state.drink_data.extras.map(function(item){
@@ -138,7 +196,7 @@ const Drink = React.createClass({
                 </div>)
             }.bind(this))}
           </div>
-          <button>送出訂單</button>
+          <button type="submit">送出訂單</button>
         </form>
       </div>
     );

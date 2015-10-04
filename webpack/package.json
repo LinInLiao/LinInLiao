@@ -23,6 +23,7 @@
     "react-hammerjs": "^0.3.0",
     "react-hot-loader": "*",
     "react-simpletabs": "^0.7.0",
+    "react-timer-mixin": "^0.13.3",
     "react-tools": "*",
     "sass-loader": "*",
     "style-loader": "*",
