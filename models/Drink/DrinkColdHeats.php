@@ -45,7 +45,6 @@ class DrinkColdHeats extends \Phalcon\Mvc\Model {
         return true;
     }
 
-
     /**
      * Independent Column Mapping.
      */

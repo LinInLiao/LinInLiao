@@ -10,7 +10,7 @@ class BaseController extends \Phalcon\Mvc\Controller
         }else {
             $this->view->setVar('liveload' , true);
         }
-
+        $this->view->setVar('title', 'Lin In Liao');
     }
 
     protected function getParams( $key = null, $default = null ) {

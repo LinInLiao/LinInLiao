@@ -1,3 +1,217 @@
-article.context
-  font-size: 16px
-  margin-top: 35px
+@import 'compass/css3'
+
+$font-stack: Helvetica, sans-serif
+$font-light: STHeiti-Light
+$font-medium: STHeiti-Medium
+
+$font-AvenirNext-Regular : AvenirNext-Regular
+$font-OpenSans : OpenSans
+$font-OpenSans-Light : OpenSans-Light
+$font-Righteous-Regular : Righteous-Regular
+$font-STHeitiTC-Light : STHeitiTC-Light
+$font-STHeitiTC-Medium : STHeitiTC-Medium
+
+
+$color-blue-slight: #95d9f1
+$color-blue-light: #76C4DF
+$color-blue-medium: #64B7CE
+$text-gray: #BDC3C7
+$border-gray: #ECF0F1
+$background-gray: #ECF0F1
+$dark-peach: #de786d
+
+
+
+@import 'components'
+
+*
+  @include box-sizing(border-box)
+
+html
+  font-size: 100%
+
+body
+  font-family: $font-stack
+  font-size: 1rem
+
+.page-wrapper
+  width: 100%
+  overflow: hidden
+  position: relative
+  display: block
+
+.header-wrap
+  width: 100%
+  height: 47px
+  line-height: 47px
+  background-color: $color-blue-light
+  text-align: center
+  h1
+    margin: 0 auto
+    font-size: 1.375rem
+    color: white
+    vertical-align: middle
+    display: inline-block
+
+.stores
+  margin-top: 15px
+
+.drinks
+  margin-top: 15px
+  .category-title
+    color: $color-blue-light
+    font-size: 1.125rem
+    border-bottom: 1px solid $border-gray
+    text-align: center
+    margin-bottom: 15px
+    padding-bottom: 10px
+    margin: 15px 4px 15px 4px
+
+
+.drink
+  form
+    padding: 0 1%
+
+.drink-name
+  width: 100%
+  text-align: center
+  color: $color-blue-light
+  font-size: 1.25rem
+  font-family: $font-medium
+  font-weight: bold
+  background-color: $background-gray
+  padding: 5px
+  margin-bottom: 15px
+
+.drink-progress
+  position: relative
+  background-image: url("/images/shaker-bg.png")
+  width: 81px
+  height: 160px
+  margin: 30px auto
+  overflow: hidden
+  .shark-bg
+    top: 0
+    left: 0
+    position: absolute
+    width: 100%
+    height: 100%
+    background-color: $text-gray
+    z-index: -2
+  .shark-completed
+    position: absolute
+    top: -10px
+    left: 0
+    width: 1%
+    height: 110%
+    background-color: #a5b3b8
+    z-index: -1
+    @include rotate(5deg)
+
+.choice-size
+  text-align: center
+  margin: 30px 0px
+.choice-amount
+  text-align: center
+  overflow: hidden
+  margin: 0px auto 30px auto
+  width: 282px
+  div
+    display: inline-block
+    text-align: center
+    width: 61px
+    height: 61px
+    line-height: 61px
+    font-size: 2.25rem
+    color: white
+    @include border-radius(8px)
+    border: 1px solid $border-gray
+    font-family: Righteous-Regular
+    font-weight: bold
+    float: left
+  .plus
+    border: 0px
+    background-color: $color-blue-light
+    cursor: pointer
+    &:before
+      position: relative
+      top: -2px
+  .minus
+    border: 0px
+    background-color: $background-gray
+    color: $text-gray
+    cursor: pointer
+    &:before
+      position: relative
+      top: -2px
+  .amount-count
+    width: 160px
+    color: $color-blue-light
+
+.choice-extra
+  text-align: center
+  .extra-box
+    vertical-align: middle
+    margin: 5px 5px
+    display: inline-block
+  .extra-text
+    position: relative
+    top: 30px
+  .extra-name
+    font-size: 1rem
+    color: $color-blue-light
+    font-family: $font-STHeitiTC-Medium
+    margin-bottom: 5px
+    word-wrap: break-word
+  .extra-price
+    font-size: 0.875rem
+    color: $text-gray
+    font-family: $font-STHeitiTC-Light
+  label
+    position: relative
+    overflow: hidden
+    text-align: center
+    vertical-align: middle
+    display: block
+    width: 111px
+    height: 111px
+    @include border-radius(50%)
+    border: 4px solid $border-gray
+  input[type="checkbox"]
+    display: none
+  input[type="checkbox"]:checked + label
+    border: 9px solid $color-blue-medium
+    .extra-text
+      top: 25px
+
+.choice-ice
+  padding-top: 45px
+  position: relative
+  &:before
+    position: absolute
+    left: 50%
+    top: 0
+    content: " "
+    background-image: url("/images/ice-icon.png")
+    background-size: 100% 100%
+    display: block
+    margin: 0 auto
+    width: 30px
+    height: 30px
+    margin-left: -15px
+
+.choice-sugar
+  padding-top: 45px
+  position: relative
+  &:before
+    position: absolute
+    left: 50%
+    top: 0
+    content: " "
+    background-image: url("/images/sugar-icon.png")
+    background-size: 100% 100%
+    display: block
+    margin: 0 auto
+    width: 30px
+    height: 30px
+    margin-left: -15px

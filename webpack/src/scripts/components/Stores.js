@@ -1,6 +1,6 @@
 import React from 'react';
 import _ from 'underscore';
-import $ from 'jQuery';
+import Card from './Card.js';
 
 
 const Stores = React.createClass({
@@ -31,16 +31,29 @@ const Stores = React.createClass({
     var store_rows = [];
     stores.map(function(item){
       var hook_link = 'order/hook/' + item.id;
+      var imageStyles = {"width": "80%"};
+      var image = "/images/icon.svg"
+
       store_rows.push(
-        <a key={item.id} href={hook_link} className="list-group-item">
-          <span>{item.name}</span>(點擊產生訂單)
-        </a>);
+        <div key={item.id} className="col-xs-6 col-md-4 col-lg-3">
+          <Card
+            link={hook_link}
+            image={image}
+            title={item.name}
+            subtitle="ComeBuyComeBuyComeBuyComeBuyComeBuyComeBuy"
+            imageStyles={imageStyles}
+          >
+          </Card>
+        </div>
+        );
     });
     return store_rows;
   },
   render: function(){
     return (
-        <div className="list-group">{this.state.stores}</div>
+        <div className="stores container">
+          <div className="lin-grid">{this.state.stores}</div>
+        </div>
     );
   }
 });

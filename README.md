@@ -4,6 +4,13 @@
   <img src="docs/icon.png" alt="LinInLiao icon" width="250">
 </p>
 
+---
+
+## 切版參考
+[切版 Spec](http://lininliao.github.io/LinInLiao/)
+
+---
+
 訂飲料太麻煩嗎？
 每次都要傳單子給大家寫，或者一個一個詢問...
 

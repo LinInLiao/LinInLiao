@@ -12,7 +12,10 @@ class OrderController extends BaseController
 {
     public function indexAction() {
         $order_id = $this->getParams('order_id');
-        var_dump('Order_id', $order_id);
+    }
+
+    public function orderDrinkAction() {
+        $order_id = $this->getParams('order_id');
     }
 
     public function hookOrderAction() {

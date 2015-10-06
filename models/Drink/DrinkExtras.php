@@ -29,6 +29,7 @@ class DrinkExtras extends \Phalcon\Mvc\Model {
     public $status;
 
 
+
     public function add($data){
         $this->drink_id = $data['drink_id'];
         $this->drink_coldheat_id = $data['drink_coldheat_id'];
