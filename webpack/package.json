@@ -20,8 +20,10 @@
     "jest-cli": "*",
     "jquery": "*",
     "node-sass": "*",
+    "react-hammerjs": "^0.3.0",
     "react-hot-loader": "*",
     "react-simpletabs": "^0.7.0",
+    "react-timer-mixin": "^0.13.3",
     "react-tools": "*",
     "sass-loader": "*",
     "style-loader": "*",
@@ -33,6 +35,7 @@
   "scripts": {
     "build": "webpack --config webpack.prod.config.js",
     "dev": "webpack-dev-server --config webpack.dev.config.js --colors --content-base-target 'http://lininliao.dev'",
+    "dev-m": "webpack-dev-server --config webpack.dev.config.js --colors --content-base-target 'http://lininliao.dev' --host 192.168.1.115 --port 8080",
     "test": "jest"
   },
   "author": "",

@@ -4,7 +4,7 @@ module.exports = {
   devtool: "eval",
   entry: {
     app: [
-      "webpack-dev-server/client?http://lininliao.dev:8080",
+      "webpack-dev-server/client?http://0.0.0.0:8080",
       "webpack/hot/only-dev-server",
       "./src/scripts/main.js"
     ]

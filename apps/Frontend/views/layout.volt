@@ -4,6 +4,7 @@
     <!--[if lt IE 10]>
     <link rel="stylesheet" href="/css/ie.css">
     <![endif]-->
+    <meta name="viewport" content="user-scalable=no,initial-scale=1,maximum-scale=1">
     <title>{{ title }}</title>
   </head>
   <body>
