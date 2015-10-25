@@ -9,6 +9,7 @@ module.exports = {
   },
   output: {
     path: "../public/js",
+    publicPath: '/js/',
     filename: "bundle.js"
   },
   plugins: [
@@ -37,20 +38,12 @@ module.exports = {
         '&includePaths[]=' + path.resolve(__dirname, './node_modules/compass-mixins/lib')
       },
 
-      {
-        test: /bootstrap\/js\//,
-        loader: 'imports?jQuery=jquery'
-      },
-
-      {
-        test: /\.(ttf|eot|svg)$/,
-        loader: 'file-loader'
-      },
-
-      {
-        test: /\.woff2?$/,
-        loader: 'url-loader?limit=10000&minetype=application/font-woff'
-      },
+      { test: /bootstrap\/js\//, loader: 'imports?jQuery=jquery' },
+      { test: /\.woff2(\?v=\d+\.\d+\.\d+)?$/,   loader: "url?limit=10000&minetype=application/font-woff" },
+      { test: /\.woff(\?v=\d+\.\d+\.\d+)?$/,   loader: "url?limit=10000&minetype=application/font-woff" },
+      { test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/,    loader: "url?limit=10000&minetype=application/octet-stream" },
+      { test: /\.eot(\?v=\d+\.\d+\.\d+)?$/,    loader: "file" },
+      { test: /\.svg(\?v=\d+\.\d+\.\d+)?$/,    loader: "url?limit=10000&minetype=image/svg+xml" },
 
       {
         test: /\.(png|jpg)$/,
