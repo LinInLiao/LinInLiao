@@ -1,4 +1,5 @@
 require('bootstrap-webpack');
+
 require('react/addons');
 require('../assets/stylesheets/style.sass');
 
@@ -8,7 +9,7 @@ import Header from './components/Header.js';
 import Stores from './components/Stores.js';
 import StoreDrinks from './components/StoreDrinks.js';
 import Drink from './components/Drink.js';
-
+import OrderDrinks from './components/OrderDrinks.js';
 
 
 import React from 'react';
@@ -28,4 +29,8 @@ if (document.getElementById('store-drinks') !== null) {
 
 if (document.getElementById('drink') !== null) {
   React.render(<Drink />, document.getElementById('drink'));
+}
+
+if (document.getElementById('orderDrinks') !== null) {
+  React.render(<OrderDrinks />, document.getElementById('orderDrinks'));
 }

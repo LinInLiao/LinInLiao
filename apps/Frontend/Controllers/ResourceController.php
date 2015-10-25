@@ -53,5 +53,19 @@ class ResourceController extends BaseController
         }
     }
 
+    public function orderDrinkListAction() {
+        $drink_id = $this->getParams('order_id');
+        $order_component = new OrderComponent();
+        $drinks = $order_component->getOrderDrinks($drink_id);
+        if ($drinks !== false) {
+            $data = array(
+                'drinks' => $drinks,
+                'status' => 'ok',
+            );
+            BaseControllerPlugin::responseJson($data);
+
+        }
+    }
+
 }
 

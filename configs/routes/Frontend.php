@@ -38,6 +38,16 @@ $router->add('/order/{order_id:[a-z0-9\-_A-Z]+}/{drink_id:[a-z0-9\-_A-Z]+}/{cold
     'action'        => 'orderDrink'
 ))->setName('order-drink');
 
+$router->add('/order/{order_id:[a-z0-9\-_A-Z]+}/overview', array(
+    'controller'    => 'Order',
+    'action'        => 'orderOverview'
+))->setName('order');
+
+
+$router->add('/order/add-drink', array(
+    'controller'    => 'Order',
+    'action'        => 'addDrink'
+))->setName('order-add-drink');
 
 /*
   resouces
@@ -57,10 +67,18 @@ $router->add('/resource/oDrink/{drink_id:[a-z0-9\-_A-Z]+}/{coldheat_id:[a-z0-9\-
     'action'        => 'orderDrink',
 ))->setName('resouce-drink-detail');
 
+$router->add('/resource/oDrinkList/{drink_id:[a-z0-9\-_A-Z]+}', array(
+    'controller'    => 'Resource',
+    'action'        => 'orderDrinkList',
+))->setName('resouce-drink-detail');
+
+
 $router->add('/order/hook/{store_id:[a-z0-9\-_A-Z]+}', array(
     'controller'    => 'Order',
     'action'        => 'hookOrder'
 ))->setName('order-hook');
+
+
 
 
 $router->notFound(array(

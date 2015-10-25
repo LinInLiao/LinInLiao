@@ -125,7 +125,6 @@ CREATE TABLE `order_drinks` (
   `store_coldheat_id` char(36) CHARACTER SET utf8mb4 NOT NULL,
   `store_coldheat_level_id` char(36) CHARACTER SET utf8mb4 NOT NULL,
   `store_sugar_id` char(36) CHARACTER SET utf8mb4 NOT NULL,
-  `order_name` char(36) CHARACTER SET utf8mb4 NOT NULL,
   `uid` int(11) NOT NULL,
   `username` varchar(100) CHARACTER SET utf8mb4 DEFAULT NULL,
   `amount` int(4) NOT NULL,

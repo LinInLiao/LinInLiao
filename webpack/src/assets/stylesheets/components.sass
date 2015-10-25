@@ -38,6 +38,31 @@ a
     img
       vertical-align : middle
 
+.lin-button
+  +border-radius(8px)
+  width: 100%
+  max-width: 400px
+  height: 60px
+  font-family: $font-STHeitiTC-Light
+  font-size: 0.875rem
+  line-height: 60px
+  text-align: center
+  margin: 40px auto
+  display: block
+  border: 1px solid $color-blue-light
+  background-color: #FFFFFF
+  color: $color-blue-light
+  &:focus, &:hover
+    outline: 0
+  &.button-blue
+    background-color: $color-blue-light
+    color: #FFFFFF
+    border: 0px
+    &:hover
+      background-color: $color-blue-medium
+  &.button-radius
+    +border-radius(40px)
+
 .tabs-navigation
   margin: 15px 0px
   clear: both
@@ -148,7 +173,6 @@ a
     border-color: transparent transparent $color-blue-slight transparent
     margin-top: 5px
   .select-wrapper-outer
-    min-height: 70px
     overflow: hidden
     position: relative
     margin: 0 auto
@@ -157,7 +181,7 @@ a
   .select-wrapper
     top: 0
     left: 0
-    position: absolute
+    position: relative
   .select-item
     color: $color-blue-slight
     font-size: 1.125rem
@@ -177,3 +201,5 @@ a
       vertical-align: middle
   input
     display: none
+
+

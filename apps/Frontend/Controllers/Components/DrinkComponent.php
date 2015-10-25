@@ -23,11 +23,26 @@ final class DrinkComponent extends \Phalcon\DI\Injectable {
             $drink->sugars = $this->getDrinkSugars($drink_id, $drink_coldheat_id);
             $drink->sizes = $this->getDrinkSizes($drink_id, $drink_coldheat_id);
             $drink->extras = $this->getDrinkExtras($drink_id, $drink_coldheat_id);
+            $drink->store_coldheat_id = $this->getDrinkColdheat($drink_id, $drink_coldheat_id);
             return (array) $drink;
         }else {
             return false;
         }
     }
+
+    private function getDrinkColdheat($drink_id, $drink_coldheat_id) {
+        $result = DrinkColdheats::findFirst(array(
+            'columns' => array('store_coldheat_id'),
+            'conditions' => 'id = :id: AND drink_id = :drink_id:',
+            'bind' => array('id' => $drink_coldheat_id, 'drink_id' => $drink_id),
+            'bindTypes' => array(
+                'id' => \Phalcon\Db\Column::BIND_PARAM_STR,
+                'drink_id' => \Phalcon\Db\Column::BIND_PARAM_STR,
+            ),
+        ));
+        return $result->store_coldheat_id;
+    }
+
     private function getDrinkColdheatLevels($drink_id, $drink_coldheat_id) {
         $coldheatLevels = array();
         $builder = $this->modelsManager->createBuilder();

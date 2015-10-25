@@ -1,5 +1,6 @@
 import React from 'react';
 import _ from 'underscore';
+
 var DragSelect = require('./DragSelect.js');
 
 require('react/addons');
@@ -60,16 +61,22 @@ const Drink = React.createClass({
       drink_id: drink_id,
       coldheat_id: coldheat_id,
       soruce_path: '/resource/oDrink/' + drink_id + '/' + coldheat_id,
+      submit_path: '/order/add-drink',
       drink_data: {
         name: '',
         sizes: [],
         extras: [],
         coldheat_levels: [],
         sugars: [],
+        store_coldheat_id: '',
       },
       selected: {
         size: '',
         amount: 1,
+      },
+      dialog: {
+        title: '驗證失敗',
+        message: '',
       }
     }
   },
@@ -125,16 +132,96 @@ const Drink = React.createClass({
   },
   handleSubmitOrder: function(e) {
     e.preventDefault();
+    var submitData = {};
     var form = e.target;
-    var drink_size = form.elements.drinkSizes.value;
-    console.log(form.elements.drinkExtras);
-
+    submitData = {
+      order_id: this.state.order_id,
+      drink_id: this.state.drink_id,
+      store_coldheat_id: this.state.drink_data.store_coldheat_id,
+      drink_amount: this.state.selected.amount,
+      drink_size: form.elements.drinkSizes.value,
+      drink_sugar: form.elements.drinkSugar.value,
+      drink_ice: form.elements.drinkIce.value,
+      drink_extras: []
+    }
+    if (form.elements.drinkExtras !== undefined) {
+      for (var i = 0, l = form.elements.drinkExtras.length; i < l; i++) {
+        if (form.elements.drinkExtras[i].checked === true) {
+          submitData.drink_extras.push(form.elements.drinkExtras[i].value);
+        }
+      };
+    }
+    if (true === this.handleSubmitVaildation(submitData)) {
+      $.ajax({
+        method: "POST",
+        url: this.state.submit_path,
+        data: submitData,
+        dataType: 'json',
+        cache: false,
+        success: function(data, status) {
+          if (data.status === 'success') {
+            this.setState({
+              dialog:{ title: '提示', message: '新增成功'},
+            });
+            $('#myModal').modal('show');
+          }else {
+            this.setState({
+              dialog:{ title: '提示', message: '新增失敗'},
+            });
+            $('#myModal').modal('show');
+          }
+        }.bind(this),
+        error: function(xhr, status, err) {
+          console.error(this.props.url, status, err.toString());
+        }.bind(this)
+      });
+    }
+  },
+  handleSubmitVaildation: function(submitData) {
+    var message = '';
+    if (submitData.drink_sugar === undefined || submitData.drink_sugar == '') {
+      message = '請選擇飲料甜度';
+    }
+    if (submitData.drink_size === undefined || submitData.drink_size == '') {
+      message = '請選擇飲料尺寸';
+    }
+    if (submitData.drink_ice === undefined || submitData.drink_ice == '') {
+      message = '請選擇飲料溫度';
+    }
+    console.log(submitData.drink_size);
+    if (message === '') {
+      return true;
+    }else {
+      this.setState({
+        dialog:{ title: '驗證失敗', message: message},
+      });
+      $('#myModal').modal('show');
+      return false;
+    }
   },
   render: function(){
     console.log('render');
     var progress_completed = { "width": "50%"};
     return (
       <div className="drink">
+
+        <div className="modal fade" id="myModal" role="dialog">
+          <div className="modal-dialog">
+            <div className="modal-content">
+              <div className="modal-header">
+                <button type="button" className="close" data-dismiss="modal">&times;</button>
+                <h4 className="modal-title">{ this.state.dialog.title }</h4>
+              </div>
+              <div className="modal-body">
+                <p>{ this.state.dialog.message }</p>
+              </div>
+              <div className="modal-footer">
+                <button type="button" className="btn btn-default" data-dismiss="modal">Close</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
         <div className="drink-name">{this.state.drink_data.name}</div>
         <form onSubmit={this.handleSubmitOrder}>
           <div className="drink-progress">
@@ -159,6 +246,7 @@ const Drink = React.createClass({
                  return (
                     <DragSelect.SelectItem
                       key={item.store_coldheat_level_id}
+                      selectName="drinkIce"
                       title={item.name}
                       selectKey={item.store_coldheat_level_id}
                       ref={item.store_coldheat_level_id}/>
@@ -173,6 +261,7 @@ const Drink = React.createClass({
                  return (
                     <DragSelect.SelectItem
                       key={item.store_sugar_id}
+                      selectName="drinkSugar"
                       title={item.name}
                       selectKey={item.store_sugar_id}
                       ref={item.store_sugar_id}/>
@@ -180,12 +269,11 @@ const Drink = React.createClass({
               })}
               </DragSelect>
           </div>
-
           <hr/>
           <div className="choice-extra">
             {this.state.drink_data.extras.map(function(item){
               return (
-                <div className="extra-box">
+                <div key={item.store_extra_id} className="extra-box">
                   <input type="checkbox" name="drinkExtras" id={item.store_extra_id} value={item.store_extra_id}/>
                   <label htmlFor={item.store_extra_id}>
                     <div className="extra-text">
@@ -196,7 +284,7 @@ const Drink = React.createClass({
                 </div>)
             }.bind(this))}
           </div>
-          <button type="submit">送出訂單</button>
+          <button className="lin-button button-blue" type="submit">送出訂單</button>
         </form>
       </div>
     );

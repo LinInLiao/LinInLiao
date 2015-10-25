@@ -90,6 +90,7 @@ const DragSelect = React.createClass({
   handlePan: function(ev) {
     // 結束拖拉
     if (ev.isFinal === true) {
+      $('body').removeClass("touchMode");
       if (Math.abs(ev.deltaX) > this.state.itemWidth / 2) {
         if (ev.deltaX > 0) {
           this.prev();
@@ -102,6 +103,7 @@ const DragSelect = React.createClass({
     }else {
       // 拖拉移動
       if (ev.isFinal === false) {
+        $('body').addClass("touchMode");
         this.setState({
           onPanMove: ev.deltaX,
           onPanFinished: false,
