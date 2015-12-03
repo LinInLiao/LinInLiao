@@ -15,17 +15,22 @@ const DragOrderDrink = React.createClass({
       position: 88,
       onPanMove: 0,
       onPanFinished: true,
+      onPanFinishedPostion: 0,
+      active_item: '',
     }
   },
   componentDidMount: function() {
-      // console.log('componentDidMount');
   },
-
+  componentWillReceiveProps: function(nextProps) {
+      if (nextProps.active !== this.props.itemKey) {
+        this.reset();
+      }
+  },
   handlePan: function(ev) {
     // 結束拖拉
     if (ev.isFinal === true) {
       $('body').removeClass("touchMode");
-      if (Math.abs(ev.deltaX) > this.state.position / 2) {
+      if (Math.abs(ev.deltaX + this.state.onPanFinishedPostion) > this.state.position / 2) {
         if (ev.deltaX > 0) {
           this.showEdit();
         }else {
@@ -35,52 +40,67 @@ const DragOrderDrink = React.createClass({
         this.reset();
       }
     }else {
-      // 拖拉移動
-      if (ev.isFinal === false) {
-        $('body').addClass("touchMode");
-        if (Math.abs(ev.deltaX) < this.state.position) {
+      $('body').addClass("touchMode");
+      if (Math.abs(ev.deltaX + this.state.onPanFinishedPostion) > this.state.position) {
+        if (ev.deltaX > 0) {
           this.setState({
-            onPanMove: ev.deltaX,
+            onPanMove: 0,
+            onPanFinishedPostion: this.state.position,
+            onPanFinished: false,
+          });
+        }else {
+          this.setState({
+            onPanMove: 0,
+            onPanFinishedPostion: -this.state.position,
             onPanFinished: false,
           });
         }
-
+      }else {
+        this.setState({
+          onPanMove: ev.deltaX,
+          onPanFinished: false,
+        });
       }
     }
   },
   showEdit: function(){
     this.setState({
-      onPanMove: this.state.position,
+      onPanFinishedPostion: this.state.position,
       onPanFinished: true,
     });
   },
   showDelete: function(){
     this.setState({
-      onPanMove: -this.state.position,
+      onPanFinishedPostion: -this.state.position,
       onPanFinished: true,
     });
   },
   reset: function() {
     this.setState({
       onPanMove: 0,
+      onPanFinishedPostion: 0,
       onPanFinished: true,
     });
   },
   render: function(){
     if (this.state.onPanFinished === true) {
-      var left = this.state.onPanMove;
-      var transition = "left 0.5s";
+      var transform = this.state.onPanFinishedPostion;
+      var transition = "transform 0.3s";
     }else {
-      var left  = this.state.onPanMove;
+      var transform  = this.state.onPanFinishedPostion + this.state.onPanMove;
       var transition = "inherit";
     }
     var outer_style = {
-      left: left,
-      transition: transition
+      transform: "translate(" +  transform  + "px ,0px)",
+      transition: transition,
+      touchAction: "none",
+      position: "position",
+      top: "0",
+      left: "0"
     };
 
     return (
-      <Hammer option={HammerOptions} onPan={this.handlePan}>
+      <Hammer option={HammerOptions} onPan={this.handlePan} onTap={this.reset}>
         <div style={outer_style} className="o-drink-item">
           <div className="edit-o-drink"><span className="glyphicon glyphicon-align-justify"></span></div>
           <div className="delete-o-drink"><span className="glyphicon glyphicon-remove" aria-hidden="true"></span></div>
