@@ -65,7 +65,7 @@ final class OrderComponent extends \Phalcon\DI\Injectable {
 
     public function getOrderDrinks($order_id) {
         $drink_list = OrderDrinks::getOrderDrinks($order_id);
-        var_dump($drink_list);
+        var_dump($drink_list->toArray());
         exit;
     }
 

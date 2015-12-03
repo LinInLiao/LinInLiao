@@ -2,7 +2,7 @@ import React from 'react';
 import _ from 'underscore';
 
 var DragSelect = require('./DragSelect.js');
-
+var Alert = require('react-bootstrap').Alert;
 require('react/addons');
 
 
@@ -62,6 +62,7 @@ const Drink = React.createClass({
       coldheat_id: coldheat_id,
       soruce_path: '/resource/oDrink/' + drink_id + '/' + coldheat_id,
       submit_path: '/order/add-drink',
+      onSubmiting: false,
       drink_data: {
         name: '',
         sizes: [],
@@ -74,9 +75,11 @@ const Drink = React.createClass({
         size: '',
         amount: 1,
       },
-      dialog: {
+      alert: {
+        visible: false,
         title: '驗證失敗',
         message: '',
+        type: 'info',
       }
     }
   },
@@ -152,6 +155,10 @@ const Drink = React.createClass({
       };
     }
     if (true === this.handleSubmitVaildation(submitData)) {
+      this.setState({
+        onSubmiting: true,
+      });
+
       $.ajax({
         method: "POST",
         url: this.state.submit_path,
@@ -161,14 +168,15 @@ const Drink = React.createClass({
         success: function(data, status) {
           if (data.status === 'success') {
             this.setState({
-              dialog:{ title: '提示', message: '新增成功'},
+              alert:{ visible: true, title: '', message: '新增成功', type: 'success'},
+              onSubmiting: true,
             });
-            $('#myModal').modal('show');
+            window.location = '/order/' + this.state.order_id + '/overview';
           }else {
             this.setState({
-              dialog:{ title: '提示', message: '新增失敗'},
+              alert:{ visible: true, title: '', message: '新增失敗', type: 'danger'},
+              onSubmiting: false,
             });
-            $('#myModal').modal('show');
           }
         }.bind(this),
         error: function(xhr, status, err) {
@@ -188,40 +196,25 @@ const Drink = React.createClass({
     if (submitData.drink_ice === undefined || submitData.drink_ice == '') {
       message = '請選擇飲料溫度';
     }
-    console.log(submitData.drink_size);
     if (message === '') {
       return true;
     }else {
       this.setState({
-        dialog:{ title: '驗證失敗', message: message},
+        alert:{ visible: true, title: '驗證失敗', message: message, type: 'danger'},
       });
-      $('#myModal').modal('show');
       return false;
     }
   },
+  handleAlertDismiss: function() {
+    this.setState({
+        alert:{ visible: false, title: '', message: '', type: 'info'},
+      });
+  },
   render: function(){
-    console.log('render');
     var progress_completed = { "width": "50%"};
+
     return (
       <div className="drink">
-
-        <div className="modal fade" id="myModal" role="dialog">
-          <div className="modal-dialog">
-            <div className="modal-content">
-              <div className="modal-header">
-                <button type="button" className="close" data-dismiss="modal">&times;</button>
-                <h4 className="modal-title">{ this.state.dialog.title }</h4>
-              </div>
-              <div className="modal-body">
-                <p>{ this.state.dialog.message }</p>
-              </div>
-              <div className="modal-footer">
-                <button type="button" className="btn btn-default" data-dismiss="modal">Close</button>
-              </div>
-            </div>
-          </div>
-        </div>
-
         <div className="drink-name">{this.state.drink_data.name}</div>
         <form onSubmit={this.handleSubmitOrder}>
           <div className="drink-progress">
@@ -284,9 +277,16 @@ const Drink = React.createClass({
                 </div>)
             }.bind(this))}
           </div>
-          <button className="lin-button button-blue" type="submit">送出訂單</button>
+          <button disabled={this.state.onSubmiting} className="lin-button button-blue" type="submit">送出訂單</button>
         </form>
+          { this.state.alert.visible ?
+            <Alert className="b-alert" bsStyle={this.state.alert.type} onDismiss={this.handleAlertDismiss} dismissAfter={2000}>
+              <h4>{ this.state.alert.title }</h4>
+              <p>{ this.state.alert.message }</p>
+            </Alert>
+          : null }
       </div>
+
     );
   }
 });

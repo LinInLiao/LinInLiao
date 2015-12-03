@@ -19,6 +19,7 @@ module.exports = {
         'window.jQuery': 'jquery',
         'root.jQuery': 'jquery'
     }),
+    new webpack.optimize.UglifyJsPlugin({minimize: true}),
     new webpack.NoErrorsPlugin()
   ],
   resolve: {
@@ -37,8 +38,11 @@ module.exports = {
         loader: "style!css!sass?indentedSyntax=true&outputStyle=expanded" +
         '&includePaths[]=' + path.resolve(__dirname, './node_modules/compass-mixins/lib')
       },
-
-      { test: /bootstrap\/js\//, loader: 'imports?jQuery=jquery' },
+      {
+        test: /\.less$/,
+        loader: "style!css!less"
+      },
+      // { test: /bootstrap\/js\//, loader: 'imports?jQuery=jquery' },
       { test: /\.woff2(\?v=\d+\.\d+\.\d+)?$/,   loader: "url?limit=10000&minetype=application/font-woff" },
       { test: /\.woff(\?v=\d+\.\d+\.\d+)?$/,   loader: "url?limit=10000&minetype=application/font-woff" },
       { test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/,    loader: "url?limit=10000&minetype=application/octet-stream" },

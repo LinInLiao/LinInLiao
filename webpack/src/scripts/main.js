@@ -1,9 +1,10 @@
-require('bootstrap-webpack');
 
 require('react/addons');
-require('../assets/stylesheets/style.sass');
 
 // TODO: Require assets here.
+require("bootstrap/less/bootstrap.less")
+require('../assets/stylesheets/style.sass');
+
 // require('../assets/images/product.png');
 import Header from './components/Header.js';
 import Stores from './components/Stores.js';
