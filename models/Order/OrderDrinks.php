@@ -90,17 +90,28 @@ class OrderDrinks extends \Phalcon\Mvc\Model {
         return $result;
     }
 
-    public static function getOrderDrinks($drink_id) {
-        $result = self::find(array(
-            'columns' => array_keys(self::columnMap()),
-            'conditions' => 'drink_id = :drink_id:',
-            'bind' => array('drink_id' => $drink_id),
-            'bindTypes' => array(
-                'drink_id' => \Phalcon\Db\Column::BIND_PARAM_STR,
-            ),
-        ));
+    public function getOrderDrinks($order_id) {
+        // $result = self::find(array(
+        //     'columns' => array_keys(self::columnMap()),
+        //     'conditions' => 'order_id = :order_id:',
+        //     'bind' => array('order_id' => $order_id),
+        //     'bindTypes' => array(
+        //         'order_id' => \Phalcon\Db\Column::BIND_PARAM_STR,
+        //     ),
+        //     'orderBy' => 'created DESC'
+        // ));
+        $phql = "SELECT od.id, od.amount,
+            (SELECT d.name FROM \Lininliao\Models\Drinks d WHERE od.drink_id = d.id limit 1) as drink_name,
+            (SELECT sc.name FROM \Lininliao\Models\Store\StoreColdheats sc WHERE od.store_coldheat_id = sc.id limit 1) as drink_coldheat ,
+            (SELECT scl.name FROM \Lininliao\Models\Store\StoreColdheatsLevels scl WHERE od.store_coldheat_level_id = scl.id limit 1) as drink_coldheat_level,
+            (SELECT ss.name FROM \Lininliao\Models\Store\StoreSugars ss WHERE od.store_sugar_id = ss.id limit 1) as drink_sugar,
+            (SELECT CONCAT(ds.name,',',ds.price) FROM \Lininliao\Models\Drink\DrinkSizes ds WHERE od.drink_size = ds.id limit 1) as drink_size
+            FROM \Lininliao\Models\Order\OrderDrinks od
+            WHERE od.status = 'active' AND od.order_id = :order_id:
+            ORDER BY od.created DESC";
+        $order_drinks = $this->modelsManager->executeQuery($phql, array('order_id' => $order_id));
+        return $order_drinks;
 
-        return $result;
     }
 
     public function initialize() {
@@ -114,7 +125,7 @@ class OrderDrinks extends \Phalcon\Mvc\Model {
         $this->drink_id = $drink_data['drink_id'];
         $this->store_coldheat_id = $drink_data['store_coldheat_id'];
         $this->store_coldheat_level_id = $drink_data['store_coldheat_level_id'];
-        $this->drink_size = $drink_data['store_coldheat_level_id'];
+        $this->drink_size = $drink_data['drink_size'];
         $this->store_sugar_id = $drink_data['store_sugar_id'];
         $this->uid = $drink_data['uid'];
         $this->username = $drink_data['username'];

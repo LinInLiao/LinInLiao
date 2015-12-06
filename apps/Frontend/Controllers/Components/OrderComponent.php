@@ -64,9 +64,28 @@ final class OrderComponent extends \Phalcon\DI\Injectable {
     }
 
     public function getOrderDrinks($order_id) {
-        $drink_list = OrderDrinks::getOrderDrinks($order_id);
-        var_dump($drink_list->toArray());
-        exit;
+        $orderDrinks = new OrderDrinks();
+        $order_drinks = $orderDrinks->getOrderDrinks($order_id);
+        $odrinks = array();
+        foreach ($order_drinks as $odrink) {
+            $odrink_size = explode(',', $odrink->drink_size);
+            $odrink->drink_size = $odrink_size[0];
+            $odrink_price = $odrink_size[1];
+            $odrink->price = (int)  $odrink_size[1];
+            $odrink_extras = array();
+            $total_price = 0;
+            $total_price += $odrink_size[1];
+            $orderDrinksExtras = new OrderDrinksExtras();
+            foreach ($orderDrinksExtras->getById($odrink->id) as $key => $extra) {
+                $total_price += $extra->price;
+                array_push($odrink_extras, $extra->name);
+            }
+            $odrink->extras = $odrink_extras;
+            $odrink->total_price = (int) $total_price;
+            array_push($odrinks, $odrink);
+        }
+        return $odrinks;
+
     }
 
 }

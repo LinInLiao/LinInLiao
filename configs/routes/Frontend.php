@@ -67,7 +67,7 @@ $router->add('/resource/oDrink/{drink_id:[a-z0-9\-_A-Z]+}/{coldheat_id:[a-z0-9\-
     'action'        => 'orderDrink',
 ))->setName('resouce-drink-detail');
 
-$router->add('/resource/oDrinkList/{drink_id:[a-z0-9\-_A-Z]+}', array(
+$router->add('/resource/oDrinkList/{order_id:[a-z0-9\-_A-Z]+}', array(
     'controller'    => 'Resource',
     'action'        => 'orderDrinkList',
 ))->setName('resouce-drink-detail');

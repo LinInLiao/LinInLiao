@@ -17,17 +17,21 @@ class OrderDrinksExtras extends \Phalcon\Mvc\Model {
     public $store_extra_id;
 
 
-    public static function getById($order_drinks_id) {
-        $result = self::find(array(
-            'columns' => array_keys(self::columnMap()),
-            'conditions' => 'order_drinks_id = :order_drinks_id:',
-            'bind' => array('order_drinks_id' => $order_drinks_id),
-            'bindTypes' => array(
-                'order_drinks_id' => \Phalcon\Db\Column::BIND_PARAM_STR,
-            ),
-        ));
-
-        return $result;
+    public function getById($order_drinks_id) {
+        // $result = self::find(array(
+        //     'columns' => array_keys(self::columnMap()),
+        //     'conditions' => 'order_drinks_id = :order_drinks_id:',
+        //     'bind' => array('order_drinks_id' => $order_drinks_id),
+        //     'bindTypes' => array(
+        //         'order_drinks_id' => \Phalcon\Db\Column::BIND_PARAM_STR,
+        //     ),
+        // ));
+        $phql = "SELECT ode.order_drinks_id, se.name, se.price
+            FROM \Lininliao\Models\Order\OrderDrinksExtras ode
+            INNER JOIN \Lininliao\Models\Store\StoreExtras se ON ode.store_extra_id = se.id
+            WHERE ode.order_drinks_id = :order_drinks_id:";
+        $orderDrinksExtras = $this->modelsManager->executeQuery($phql, array('order_drinks_id' => $order_drinks_id));
+        return $orderDrinksExtras;
     }
 
     public function initialize() {

@@ -98,6 +98,9 @@ const DragOrderDrink = React.createClass({
       top: "0",
       left: "0"
     };
+    var extras = this.props.drink.extras.map(function(extra){
+      return (<span>{extra}</span>);
+    });
 
     return (
       <Hammer option={HammerOptions} onPan={this.handlePan} onTap={this.reset}>
@@ -105,9 +108,15 @@ const DragOrderDrink = React.createClass({
           <div className="edit-o-drink"><span className="glyphicon glyphicon-align-justify"></span></div>
           <div className="delete-o-drink"><span className="glyphicon glyphicon-remove" aria-hidden="true"></span></div>
           <div className="o-drink-detail">
-            <div className="o-drink-title">四季菁茶</div>
-            <div className="o-drink-info">大杯　半糖　少冰</div>
-            <div className="o-drink-amount">1</div>
+            <div className="o-drink-title">{this.props.drink.drink_name} <span> ${this.props.drink.total_price}</span></div>
+              <div className="o-drink-info">
+                <span>{this.props.drink.drink_size}</span>，
+                <span>{this.props.drink.drink_coldheat}</span>，
+                <span>{this.props.drink.drink_coldheat_level}</span>，
+                <span>{this.props.drink.drink_sugar}</span>
+                <span>({extras})</span>
+              </div>
+            <div className="o-drink-amount">{this.props.drink.amount}</div>
           </div>
         </div>
       </Hammer>

@@ -5,9 +5,13 @@ var Hammer = require('react-hammerjs');
 
 const OrderDrinks = React.createClass({
   getInitialState: function() {
+    var location_href = window.location.href.split("/");
+    location_href.pop();
+    var order_id = _.last(location_href)
+
     return {
-      store_drinks: [],
-      order_id: _.last(window.location.href.split("/")),
+      orderDrinks: [],
+      order_id: order_id,
       active_item: '',
     };
   },
@@ -16,12 +20,13 @@ const OrderDrinks = React.createClass({
     this.loadOrderDrinks();
   },
   loadOrderDrinks: function() {
+    console.log();
     $.ajax({
       url: '/resource/oDrinkList/' + this.state.order_id,
       dataType: 'json',
       cache: false,
       success: function(data, status) {
-        this.setState({store_drinks: data.drinks});
+        this.setState({orderDrinks: data.drinks});
       }.bind(this),
       error: function(xhr, status, err) {
         // console.log(this.props.url, status, err.toString());
@@ -43,17 +48,18 @@ const OrderDrinks = React.createClass({
     }
   },
   render: function(){
+    var rows = [];
+    this.state.orderDrinks.forEach(function(drink) {
+      rows.push(
+        <Hammer key={drink.id} onTap={this.handleOnTap.bind(this, drink.id)} onPan={this.handleOnPan.bind(this, drink.id)}>
+          <DragOrderDrink active={this.state.active_item} itemKey={drink.id} drink={drink}>
+          </DragOrderDrink>
+        </Hammer>
+      );
+    }, this);
     return (
       <div className="order-drinks">
-        <Hammer onTap={this.handleOnTap.bind(this,'item-1')} onPan={this.handleOnPan.bind(this,'item-1')}><DragOrderDrink active={this.state.active_item} itemKey="item-1" /></Hammer>
-        <Hammer onTap={this.handleOnTap.bind(this,'item-2')} onPan={this.handleOnPan.bind(this,'item-2')}><DragOrderDrink active={this.state.active_item} itemKey="item-2" /></Hammer>
-        <Hammer onTap={this.handleOnTap.bind(this,'item-3')} onPan={this.handleOnPan.bind(this,'item-3')}><DragOrderDrink active={this.state.active_item} itemKey="item-3" /></Hammer>
-        <Hammer onTap={this.handleOnTap.bind(this,'item-4')} onPan={this.handleOnPan.bind(this,'item-4')}><DragOrderDrink active={this.state.active_item} itemKey="item-4" /></Hammer>
-        <Hammer onTap={this.handleOnTap.bind(this,'item-5')} onPan={this.handleOnTap.bind(this,'item-5')}><DragOrderDrink active={this.state.active_item} itemKey="item-5" /></Hammer>
-        <Hammer onTap={this.handleOnTap.bind(this,'item-6')} onPan={this.handleOnTap.bind(this,'item-6')}><DragOrderDrink active={this.state.active_item} itemKey="item-6" /></Hammer>
-        <Hammer onTap={this.handleOnTap.bind(this,'item-7')} onPan={this.handleOnTap.bind(this,'item-7')}><DragOrderDrink active={this.state.active_item} itemKey="item-7" /></Hammer>
-        <Hammer onTap={this.handleOnTap.bind(this,'item-8')} onPan={this.handleOnTap.bind(this,'item-8')}><DragOrderDrink active={this.state.active_item} itemKey="item-8" /></Hammer>
-        <Hammer onTap={this.handleOnTap.bind(this,'item-9')} onPan={this.handleOnTap.bind(this,'item-9')}><DragOrderDrink active={this.state.active_item} itemKey="item-9" /></Hammer>
+        {rows}
       </div>
     );
   }
