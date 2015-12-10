@@ -1,15 +1,16 @@
 import React from 'react';
 import _ from 'underscore';
 import Card from './Card.js';
-import Tabs from 'react-simpletabs';
-
-
+// import Tabs from 'react-simpletabs';
+import { Link } from 'react-router'
+import { Tabs, Tab } from 'react-bootstrap';
 
 const StoreDrinks = React.createClass({
   getInitialState: function() {
     return {
       store_drinks: [],
-      order_id: _.last(window.location.href.split("/"))
+      order_id: _.last(window.location.href.split("/")),
+      tabKey: 1
     };
   },
 
@@ -31,19 +32,18 @@ const StoreDrinks = React.createClass({
   },
   renderDrinks: function(drinks) {
     var drinks_list = drinks.map(function(item){
-      var hook_link = 'order/hook/' + item.id;
       var imageStyles = {"width": "80%"};
       var image = "/images/icon.svg"
       return (
         <div key={item.drink_id} className="col-xs-6 col-md-4 col-lg-3">
-          <Card
-            link={this.state.order_id + '/' + item.drink_id + '/' + item.drink_coldheat}
-            image={image}
-            title={item.drink_name}
-            subtitle="20元"
-            imageStyles={imageStyles}
-          >
-          </Card>
+          <Link to={'/order/' + this.state.order_id + '/' + item.drink_id + '/' + item.drink_coldheat}>
+            <Card
+              image={image}
+              title={item.drink_name}
+              subtitle="20元"
+              imageStyles={imageStyles}
+            />
+          </Link>
         </div>
       );
     }.bind(this));
@@ -65,16 +65,21 @@ const StoreDrinks = React.createClass({
     }.bind(this));
     return (categories_list);
   },
+  handleTabSelect: function(key) {
+    this.setState({tabKey: key});
+  },
   renderTabs: function(tabs) {
     var tabSelectedIndex = 1;
-    var tabs_list = tabs.map(function(item){
+    var tabCount = 0;
+    var tabs_list = tabs.map(function(item, tabCount, index){
+      tabCount++;
       return (
-        <Tabs.Panel key={item.coldheatid} title={item.name}>
+        <Tab key={item.coldheat_id} eventKey={tabCount} title={item.name}>
           {this.renderCategories(item.categories)}
-        </Tabs.Panel>
+        </Tab>
       );
     }.bind(this));
-    return (<Tabs className="lin-tabs">{tabs_list}</Tabs>);
+    return (<Tabs activeKey={this.state.tabKey} onSelect={this.handleTabSelect} animation={false} className="lin-tabs">{tabs_list}</Tabs>);
   },
   render: function(){
     var store_menu = '';

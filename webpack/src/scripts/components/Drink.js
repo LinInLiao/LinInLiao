@@ -3,10 +3,8 @@ import _ from 'underscore';
 
 var DragSelect = require('./DragSelect.js');
 var Alert = require('react-bootstrap').Alert;
-require('react/addons');
 
 
-var ReactCSSTransitionGroup = React.addons.CSSTransitionGroup;
 
 var Hammer = require('react-hammerjs');
 
@@ -107,7 +105,6 @@ const Drink = React.createClass({
     });
   },
   handleAmount: function(action){
-    console.log('handleAmount');
     var selected = this.state.selected;
     var amount = this.state.selected.amount;
     if (action === 'plus') {
@@ -171,7 +168,11 @@ const Drink = React.createClass({
               alert:{ visible: true, title: '', message: '新增成功', type: 'success'},
               onSubmiting: true,
             });
-            window.location = '/order/' + this.state.order_id + '/overview';
+            this.props.history.push({
+              pathname: '/order/' + this.state.order_id + '/overview',
+              search: '',
+              state: { the: 'state' }
+            })
           }else {
             this.setState({
               alert:{ visible: true, title: '', message: '新增失敗', type: 'danger'},

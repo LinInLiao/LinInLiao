@@ -30,6 +30,19 @@ class OrderController extends BaseController
         );
         if (false !== ($order_id = $order_component->hookOrder($order_data))) {
             $this->response->redirect('/order/'. $order_id);
+            $redirect_url = DS . 'order' . DS . $order_id;
+            $data = array(
+                'redirect_url' => $redirect_url,
+                'status' => 'success',
+            );
+            BaseControllerPlugin::responseJson($data, 200);
+
+        }else {
+            $data = array(
+                'redirect_url' => '',
+                'status' => 'failed',
+            );
+            BaseControllerPlugin::responseJson($data, 405);
         }
     }
 

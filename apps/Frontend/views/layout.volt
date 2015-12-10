@@ -16,6 +16,7 @@
       <div id="header"></div>
       <div id="main">
         {% block content %}{% endblock %}
+          <div id="App" class="app"></div>
       </div>
     </div>
     {% if liveload is true %}

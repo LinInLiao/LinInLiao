@@ -63,30 +63,32 @@ a
   &.button-radius
     +border-radius(40px)
 
-.tabs-navigation
+.lin-tabs .nav-tabs
   margin: 15px 0px
   clear: both
   overflow: hidden
-  .tabs-menu
-    padding: 0
-    li
-      list-style: none
-  .tabs-menu-item a
+  li
+    width: 50%
+  li a
     float: left;
     font-size: 1rem
     border-bottom: 2px solid $border-gray
     text-align: center
     padding-bottom: 10px
     cursor: pointer
-    width: 50%
     color: $text-gray
-  .tabs-menu-item.is-active a
+    border: 0
+    width: 100%
+  li.active a
     border-bottom: 4px solid $color-blue-light
     color: $color-blue-light
-
+  li a:hover, li a:focus
+    background-color: #fff
+    outline: none
+    border: none
+    border-bottom: 4px solid $color-blue-light
 .radio-boxs
   text-align: center
-
 .radio-button
   height: 90px
   width: 65px
